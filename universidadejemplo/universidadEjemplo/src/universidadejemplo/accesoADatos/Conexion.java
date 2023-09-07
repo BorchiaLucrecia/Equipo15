@@ -1,4 +1,4 @@
-package accesoadatos;
+package universidadejemplo.accesoADatos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

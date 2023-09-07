@@ -1,4 +1,4 @@
-package entidades;
+package universidadejemplo.entidades;
 
 public class Inscripcion {
 
@@ -61,7 +61,8 @@ public class Inscripcion {
 
     @Override
     public String toString() {
-        return "Inscripcion{" + "idInscripcion=" + idInscripcion + ", materia=" + materia + ", alumno=" + alumno + ", nota=" + nota + '}';
+        String insc= "INSCRIPCIÓN: "+ alumno.getApellido()+", "+ alumno.getNombre()+", "+ materia.getNombre()+"";
+        return insc;
     }
     
     

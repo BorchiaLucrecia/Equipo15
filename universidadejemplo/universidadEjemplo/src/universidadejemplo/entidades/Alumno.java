@@ -1,5 +1,5 @@
 
-package entidades;
+package universidadejemplo.entidades;
 
 import java.time.LocalDate;
 

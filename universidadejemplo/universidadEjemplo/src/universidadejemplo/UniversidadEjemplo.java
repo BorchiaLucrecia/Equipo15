@@ -1,6 +1,6 @@
-package entidades;
+package universidadejemplo;
 
-import accesoadatos.Conexion;
+import universidadejemplo.accesoADatos.Conexion;
 
 public class UniversidadEjemplo {
 

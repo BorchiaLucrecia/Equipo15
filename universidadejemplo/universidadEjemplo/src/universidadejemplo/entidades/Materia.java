@@ -1,5 +1,5 @@
 
-package entidades;
+package universidadejemplo.entidades;
 
 public class Materia {
     int idMateria;
