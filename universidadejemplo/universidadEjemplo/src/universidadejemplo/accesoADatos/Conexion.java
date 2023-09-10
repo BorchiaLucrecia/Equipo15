@@ -3,39 +3,45 @@ package universidadejemplo.accesoADatos;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
+
+// Cambios en el codigo segun las indicaciones de la guia y teoria. 
+// Para crear un objeto PreparedStatement 
+// usamos el patron de diseño singleton que permite crear una unica instancia de una clase
+//  y acceder a ella de forma global.
+   
 public class Conexion {
-
-    private String url;
-    private String usuario;
-    private String pass;
-    public static Connection conexion = null; // es importante crear una variable de tipo connection
-
-    public Conexion(String url, String usuario, String pass) {
-        this.usuario = usuario;
-        this.pass = pass;
-        this.url = url;
-    }
-
-    public Connection getConexion() {
-        if (conexion == null) {
-            try {
-                Class.forName("org.mariadb.jdbc.Driver").newInstance();
-                //Aqui se establece la conexion por el método estático getConnection(), retornando un objeto 
-                //de tipo Connection que se asigna a la variable conexion
-                conexion = DriverManager.getConnection(url, usuario, pass);
-            } catch (ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Error al cargar el Driver " + ex);
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Error al Conectar a BD " + ex);
-            } catch (InstantiationException | IllegalAccessException ex) {
-                Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return conexion;
+//Esta clase debe tener una conexion y brindar un punto global de acceso.
+    // LAS CONSTANTES VAN EN MAYUSCULA Y SON FINAL. 
+    private static final String URL="jdbc:mariadb://localhost/";
+    private static final String DB="universidadulp";
+ // Por defecto el usuario es root.
+    private static final String USUARIO="root";
+    private static final String PASSWORD="";
+ //Atributo que utilizan las clases data, para enviar secuencias sql a la BD.
+    private static Connection connection;
+    
+    private Conexion(){}
+    
+ //Metodo que devuelve un objeto tipo Connection
+    //FUNCION:
+    public static Connection getConexion(){
+     
+      if(connection==null){
+          
+          try {
+              Class.forName("org.mariadb.jdbc.Driver");
+              connection= DriverManager.getConnection(URL+DB,USUARIO,PASSWORD);
+          
+          
+          } catch (ClassNotFoundException ex) {
+              JOptionPane.showMessageDialog(null,"ERROR: No se pueden cargar los driver");
+              
+          } catch (SQLException ex) {
+             JOptionPane.showMessageDialog(null,"ERROR: No se puede conectas a la BASE DE DATOS");
+          }     
+      }
+      return connection;
     }
 }
