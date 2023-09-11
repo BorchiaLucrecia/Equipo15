@@ -112,6 +112,24 @@ public class MateriaData {
    }
    public List <Materia> listarMaterias (){
        ArrayList <Materia> materias=new ArrayList<>();
+       String sql = "SELECT nombre, anio FROM materia WHERE estado=1";
+        try {
+            PreparedStatement ps=con.prepareStatement(sql);
+            ResultSet rs=ps.executeQuery();
+            
+            while (rs.next()) {
+                Materia materia = new Materia();
+                materia.setNombre(rs.getString("nombre"));
+                materia.setAnioMateria(rs.getInt("anio"));
+                materia.setEstado(true);
+                materias.add(materia);
+                
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar Materia");
+        }
+       
        return materias;
    }
 }
