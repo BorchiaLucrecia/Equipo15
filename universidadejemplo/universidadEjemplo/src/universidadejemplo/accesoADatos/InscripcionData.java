@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import universidadejemplo.entidades.Alumno;
 import universidadejemplo.entidades.Inscripcion;
+import universidadejemplo.entidades.Materia;
 
 public class InscripcionData {
 
@@ -68,9 +69,17 @@ public class InscripcionData {
     }
 
     //ArrayList con las Inscripciones
-    public List<Inscripcion> inscripciones(){
-     String sql="SELECT * FROM inscripcion ";
+    /*SELECT idInscripto, nota, alumno.nombre, alumno.apellido, alumno.dni, alumno.fechaNacimiento,alumno.estado, materia.nombre, materia.anio, materia.estado FROM `inscripcion`
+    //JOIN alumno ON inscripcion.idInscripto=alumno.idAlumno
+    //JOIN materia ON inscripcion.idMateria=materia.idMateria;*/
+    
+    public List<Inscripcion> obtenerInscripcion(){
+     String sql="SELECT idInscripto, nota, alumno.nombre, alumno.apellido, alumno.dni, alumno.fechaNacimiento,alumno.estado, materia.nombre, materia.anio, materia.estado FROM `inscripcion`\n" +
+    "JOIN alumno ON inscripcion.idInscripto=alumno.idAlumno\n" +
+    "JOIN materia ON inscripcion.idMateria=materia.idMateria;";
       ArrayList<Inscripcion> inscripciones=new ArrayList<>();
+      Alumno alm = new Alumno();
+      Materia mat = new Materia();
         try {
             PreparedStatement ps=con.prepareStatement(sql);
           
@@ -80,14 +89,23 @@ public class InscripcionData {
                Inscripcion inscripcion=new Inscripcion();
                inscripcion.setIdInscripcion(rs.getInt("idInscripto"));
                inscripcion.setNota(rs.getInt("nota"));
-               inscripcion.setAlumno(alumno);
-               inscripcion.setMateria(materia);
+               alm.setApellido(rs.getString("apellido"));
+               alm.setNombre(rs.getString("nombre"));
+               alm.setDni(rs.getInt("dni"));
+               /*alm.setFechaNacimiento.(rs.getDate("fechaNacimiento"));*/
+               alm.setEstado(true);
+               mat.setNombre(rs.getString("nombre"));
+               mat.setAnioMateria(rs.getInt("anio"));
+               mat.setEstado(true);
+               inscripcion.setAlumno(alm);
+               inscripcion.setMateria(mat);
                
             }
             ps.close();
         } catch (SQLException ex) {
            JOptionPane.showMessageDialog(null,"ERROR:No se puede acceder a la tabla alumno");
         }
+        return inscripciones;
         
     }
     //ArrayList con Inscripciones por Alumno
