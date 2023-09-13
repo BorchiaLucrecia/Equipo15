@@ -72,46 +72,72 @@ public class InscripcionData {
     /*SELECT idInscripto, nota, alumno.nombre, alumno.apellido, alumno.dni, alumno.fechaNacimiento,alumno.estado, materia.nombre, materia.anio, materia.estado FROM `inscripcion`
     //JOIN alumno ON inscripcion.idInscripto=alumno.idAlumno
     //JOIN materia ON inscripcion.idMateria=materia.idMateria;*/
-    
-    public List<Inscripcion> obtenerInscripcion(){
-     String sql="SELECT idInscripto, nota, alumno.nombre, alumno.apellido, alumno.dni, "
-             + "alumno.fechaNacimiento,alumno.estado, materia.nombre, materia.anio, materia.estado "
-             + "FROM `inscripcion` JOIN alumno ON inscripcion.idInscripto=alumno.idAlumno "
-             + "JOIN materia ON inscripcion.idMateria=materia.idMateria";
-     
-      ArrayList<Inscripcion> inscripciones=new ArrayList<>();
-      Alumno alm = new Alumno();
-      Materia mat = new Materia();
+    public List<Inscripcion> obtenerInscripcion() {
+        String sql = "SELECT idInscripto, nota, alumno.nombre, alumno.apellido, alumno.dni, "
+                + "alumno.fechaNacimiento,alumno.estado, materia.nombre, materia.anio, materia.estado "
+                + "FROM `inscripcion` JOIN alumno ON inscripcion.idInscripto=alumno.idAlumno "
+                + "JOIN materia ON inscripcion.idMateria=materia.idMateria";
+
+        ArrayList<Inscripcion> inscripciones = new ArrayList<>();
+        Alumno alm = new Alumno();
+        Materia mat = new Materia();
         try {
-            PreparedStatement ps=con.prepareStatement(sql);
-          
-            ResultSet rs=ps.executeQuery();
-            while(rs.next()){
-              
-               Inscripcion inscripcion=new Inscripcion();
-               inscripcion.setIdInscripcion(rs.getInt("idInscripto"));
-               inscripcion.setNota(rs.getInt("nota"));
-               alm.setApellido(rs.getString("apellido"));
-               alm.setNombre(rs.getString("nombre"));
-               alm.setDni(rs.getInt("dni"));
-               alm.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
-               alm.setEstado(true);
-               mat.setNombre(rs.getString("nombre"));
-               mat.setAnioMateria(rs.getInt("anio"));
-               mat.setEstado(true);
-               inscripcion.setAlumno(alm);
-               inscripcion.setMateria(mat);
-               
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                Inscripcion inscripcion = new Inscripcion();
+                inscripcion.setIdInscripcion(rs.getInt("idInscripto"));
+                inscripcion.setNota(rs.getInt("nota"));
+                alm.setApellido(rs.getString("apellido"));
+                alm.setNombre(rs.getString("nombre"));
+                alm.setDni(rs.getInt("dni"));
+                alm.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
+                alm.setEstado(true);
+                mat.setNombre(rs.getString("nombre"));
+                mat.setAnioMateria(rs.getInt("anio"));
+                mat.setEstado(true);
+                inscripcion.setAlumno(alm);
+                inscripcion.setMateria(mat);
+
             }
             ps.close();
         } catch (SQLException ex) {
-           JOptionPane.showMessageDialog(null,"ERROR:No se puede cargar una o más inscripciones");
+            JOptionPane.showMessageDialog(null, "ERROR:No se puede cargar una o más inscripciones");
         }
         return inscripciones;
-        
+
     }
+
     //ArrayList con Inscripciones por Alumno
+    
+    
     //ArrayList con Materias cursadas por Alumnos listadas por id
+    public List<Materia> obtenerMateriasCursadas(int id) {
+        List<Materia> materias = new ArrayList<Materia>();
+        String sql = "SELECT inscripcion.idMateria, nombre, anio FROM inscripcion, materia WHERE inscripcion.idMateria = materia.idMateria AND inscripcion.idAlumno= ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            Materia materia;
+            while (rs.next()) {
+                materia = new Materia();
+                materia.setIdMateria(rs.getInt("idMateria"));
+                materia.setNombre(rs.getString("nombre"));
+                materia.setAnioMateria(rs.getInt("anio"));
+                materias.add(materia);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "ERROR:No se puede cargar una o más inscripciones");
+        }
+        return materias;
+    }
     //ArrayList con Materias NO Cursadas por Alumno listadas por id
+
+    
     //ArrayList de Alumnos inscriptos a cada Materia
 }
