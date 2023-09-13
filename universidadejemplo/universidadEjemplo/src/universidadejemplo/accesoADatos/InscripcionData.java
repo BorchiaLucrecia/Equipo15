@@ -74,9 +74,11 @@ public class InscripcionData {
     //JOIN materia ON inscripcion.idMateria=materia.idMateria;*/
     
     public List<Inscripcion> obtenerInscripcion(){
-     String sql="SELECT idInscripto, nota, alumno.nombre, alumno.apellido, alumno.dni, alumno.fechaNacimiento,alumno.estado, materia.nombre, materia.anio, materia.estado FROM `inscripcion`\n" +
-    "JOIN alumno ON inscripcion.idInscripto=alumno.idAlumno\n" +
-    "JOIN materia ON inscripcion.idMateria=materia.idMateria;";
+     String sql="SELECT idInscripto, nota, alumno.nombre, alumno.apellido, alumno.dni, "
+             + "alumno.fechaNacimiento,alumno.estado, materia.nombre, materia.anio, materia.estado "
+             + "FROM `inscripcion` JOIN alumno ON inscripcion.idInscripto=alumno.idAlumno "
+             + "JOIN materia ON inscripcion.idMateria=materia.idMateria";
+     
       ArrayList<Inscripcion> inscripciones=new ArrayList<>();
       Alumno alm = new Alumno();
       Materia mat = new Materia();
@@ -92,7 +94,7 @@ public class InscripcionData {
                alm.setApellido(rs.getString("apellido"));
                alm.setNombre(rs.getString("nombre"));
                alm.setDni(rs.getInt("dni"));
-               /*alm.setFechaNacimiento.(rs.getDate("fechaNacimiento"));*/
+               alm.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
                alm.setEstado(true);
                mat.setNombre(rs.getString("nombre"));
                mat.setAnioMateria(rs.getInt("anio"));
@@ -103,7 +105,7 @@ public class InscripcionData {
             }
             ps.close();
         } catch (SQLException ex) {
-           JOptionPane.showMessageDialog(null,"ERROR:No se puede acceder a la tabla alumno");
+           JOptionPane.showMessageDialog(null,"ERROR:No se puede cargar una o más inscripciones");
         }
         return inscripciones;
         
