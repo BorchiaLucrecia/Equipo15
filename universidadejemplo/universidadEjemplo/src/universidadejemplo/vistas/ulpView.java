@@ -75,6 +75,11 @@ public class ulpView extends javax.swing.JFrame {
         jMmateria.setText("Materia");
 
         jMformularioMat.setText("Formulario Materia");
+        jMformularioMat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMformularioMatActionPerformed(evt);
+            }
+        });
         jMmateria.add(jMformularioMat);
 
         jMenuBar1.add(jMmateria);
@@ -82,9 +87,19 @@ public class ulpView extends javax.swing.JFrame {
         jMadministración.setText("Administración");
 
         JMinscripciones.setText("Inscripciones");
+        JMinscripciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JMinscripcionesActionPerformed(evt);
+            }
+        });
         jMadministración.add(JMinscripciones);
 
         jMnotas.setText("Notas");
+        jMnotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnotasActionPerformed(evt);
+            }
+        });
         jMadministración.add(jMnotas);
 
         jMenuBar1.add(jMadministración);
@@ -92,6 +107,11 @@ public class ulpView extends javax.swing.JFrame {
         jMconsultas.setText("Consultas");
 
         jMalumxMateria.setText("Alumnos por Materia");
+        jMalumxMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMalumxMateriaActionPerformed(evt);
+            }
+        });
         jMconsultas.add(jMalumxMateria);
 
         jMenuBar1.add(jMconsultas);
@@ -128,6 +148,59 @@ public class ulpView extends javax.swing.JFrame {
          jDesktopPane.add(formularioAlumno);
          jDesktopPane.moveToFront(formularioAlumno);
     }//GEN-LAST:event_jMformularioAlumActionPerformed
+
+    private void jMformularioMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMformularioMatActionPerformed
+        // TODO add your handling code here:
+          jDesktopPane.removeAll();
+         jDesktopPane.repaint();
+
+    // Crear una instancia del formulario 
+         GestionMateria formularioMateria = new GestionMateria();
+         formularioMateria.setVisible(true);
+    
+    // Agregar el formulario de alumno al JDPEscritorio
+         jDesktopPane.add(formularioMateria);
+         jDesktopPane.moveToFront(formularioMateria);
+    }//GEN-LAST:event_jMformularioMatActionPerformed
+
+    private void JMinscripcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMinscripcionesActionPerformed
+        // TODO add your handling code here:
+         jDesktopPane.removeAll();
+         jDesktopPane.repaint();
+
+         GestionInscripciones inscripcion = new GestionInscripciones();
+         inscripcion.setVisible(true);
+    
+         jDesktopPane.add(inscripcion);
+         jDesktopPane.moveToFront(inscripcion);
+    }//GEN-LAST:event_JMinscripcionesActionPerformed
+
+    private void jMnotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnotasActionPerformed
+        // TODO add your handling code here:
+         jDesktopPane.removeAll();
+         jDesktopPane.repaint();
+
+         GestionNotas nota = new GestionNotas();
+         nota.setVisible(true);
+    
+    // Agregar el formulario de alumno al JDPEscritorio
+         jDesktopPane.add(nota);
+         jDesktopPane.moveToFront(nota);
+    }//GEN-LAST:event_jMnotasActionPerformed
+
+    private void jMalumxMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMalumxMateriaActionPerformed
+        // TODO add your handling code here:
+         jDesktopPane.removeAll();
+         jDesktopPane.repaint();
+
+    // Crear una instancia del formulario de alumno
+         Consultas AlumnoxMat = new Consultas();
+         AlumnoxMat.setVisible(true);
+    
+    // Agregar el formulario de alumno al JDPEscritorio
+         jDesktopPane.add(AlumnoxMat);
+         jDesktopPane.moveToFront(AlumnoxMat);
+    }//GEN-LAST:event_jMalumxMateriaActionPerformed
 
     
     /**
