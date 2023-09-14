@@ -16,6 +16,11 @@ public class ulpView extends javax.swing.JFrame {
      */
     public ulpView() {
         initComponents();
+        this.setSize(500,500);
+        this.setLocationRelativeTo(null);
+        this.setTitle("Sistema de gestión - ULP");
+        this.setResizable(false);
+        
     }
 
     /**
@@ -29,7 +34,7 @@ public class ulpView extends javax.swing.JFrame {
 
         jDesktopPane = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMalumno = new javax.swing.JMenu();
+        jMformAlumno = new javax.swing.JMenu();
         jMformularioAlum = new javax.swing.JMenuItem();
         jMmateria = new javax.swing.JMenu();
         jMformularioMat = new javax.swing.JMenuItem();
@@ -42,28 +47,30 @@ public class ulpView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jDesktopPane.setBackground(new java.awt.Color(204, 204, 204));
+
         javax.swing.GroupLayout jDesktopPaneLayout = new javax.swing.GroupLayout(jDesktopPane);
         jDesktopPane.setLayout(jDesktopPaneLayout);
         jDesktopPaneLayout.setHorizontalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 383, Short.MAX_VALUE)
+            .addGap(0, 480, Short.MAX_VALUE)
         );
 
-        jMalumno.setText("Alumno");
-        jMalumno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMalumnoActionPerformed(evt);
-            }
-        });
+        jMformAlumno.setText("Alumno");
 
         jMformularioAlum.setText("Formulario Alumno");
-        jMalumno.add(jMformularioAlum);
+        jMformularioAlum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMformularioAlumActionPerformed(evt);
+            }
+        });
+        jMformAlumno.add(jMformularioAlum);
 
-        jMenuBar1.add(jMalumno);
+        jMenuBar1.add(jMformAlumno);
 
         jMmateria.setText("Materia");
 
@@ -102,26 +109,27 @@ public class ulpView extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane)
+            .addComponent(jDesktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMalumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMalumnoActionPerformed
+    private void jMformularioAlumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMformularioAlumActionPerformed
         // TODO add your handling code here:
          jDesktopPane.removeAll();
          jDesktopPane.repaint();
 
     // Crear una instancia del formulario de alumno
-    GestionAlumno formularioAlumno = new GestionAlumno();
-    formularioAlumno.setVisible(true);
-
+         GestionAlumno formularioAlumno = new GestionAlumno();
+         formularioAlumno.setVisible(true);
+    
     // Agregar el formulario de alumno al JDPEscritorio
-    jDesktopPane.add(formularioAlumno);
-    jDesktopPane.moveToFront(formularioAlumno);
-    }//GEN-LAST:event_jMalumnoActionPerformed
+         jDesktopPane.add(formularioAlumno);
+         jDesktopPane.moveToFront(formularioAlumno);
+    }//GEN-LAST:event_jMformularioAlumActionPerformed
 
+    
     /**
      * @param args the command line arguments
      */
@@ -161,10 +169,10 @@ public class ulpView extends javax.swing.JFrame {
     private javax.swing.JMenuItem JMinscripciones;
     private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JMenu jMadministración;
-    private javax.swing.JMenu jMalumno;
     private javax.swing.JMenuItem jMalumxMateria;
     private javax.swing.JMenu jMconsultas;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMformAlumno;
     private javax.swing.JMenuItem jMformularioAlum;
     private javax.swing.JMenuItem jMformularioMat;
     private javax.swing.JMenu jMmateria;
