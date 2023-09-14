@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import universidadejemplo.entidades.Alumno;
 import universidadejemplo.entidades.Inscripcion;
@@ -171,6 +173,41 @@ public class InscripcionData {
         return materias;
     }
     //ArrayList con Materias NO Cursadas por Alumno listadas por id
+    public List<Materia> obtenerMateriasNoCursadas(int id){
+        List<Materia> materias =new ArrayList<Materia>();
+        String sql= "SELECT inscripcion.idMateria, nombre FROM inscripcion, materia WHERE inscripcion.idMateria = materia.idMateria AND inscripcion.idAlumno= null;";
+        
+        try {
+            PreparedStatement ps= con.prepareStatement(sql);
+            ResultSet rs= ps.executeQuery();
+            Materia materia;
+            while (rs.next()) {
+                materia = new Materia();
+                materia.setIdMateria(rs.getInt("idMateria"));
+                materia.setNombre(rs.getString("nombre"));
+                materias.add(materia);  
+            }
+            ps.close();
+            
+            
+        } catch (SQLException ex) {
+             JOptionPane.showMessageDialog(null, "ERROR al mostrar materias NO cursadas");
+        }
+        
+        return materias;
+                
+    }
 
     //ArrayList de Alumnos inscriptos a cada Materia
+    public List<Alumno> obtenerAlumnosXMateria (int idMateria){
+        List<Alumno> alumno = new ArrayList<Alumno>();
+        String sql= "SELECT materia.nombre, alumno.nombre, alumno.apellido  \n" +
+        "FROM `inscripcion` \n" +
+        "JOIN alumno ON inscripcion.idInscripto \n" +
+        "JOIN materia ON inscripcion.idMateria;";
+        //PreparedStatement ps= con
+        
+        //FALTA TERMINAR LIST
+     return alumno;
+    }
 }
