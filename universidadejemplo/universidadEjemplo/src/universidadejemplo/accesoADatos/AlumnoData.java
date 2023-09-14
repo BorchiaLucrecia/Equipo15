@@ -32,6 +32,8 @@ public class AlumnoData {
     public AlumnoData(){
         con = Conexion.getConexion();
     }
+
+    
     
  //TAREA: HACER INSERT    
   public void guardarAlumno(Alumno alumno){  
@@ -51,7 +53,7 @@ public class AlumnoData {
         //Ejecuto:
             ps.executeUpdate();
             
-        //Tabla con los id de la cant. de alunos.
+        //Tabla con los id de la cant. de alumnos.
           ResultSet rs = ps.getGeneratedKeys();
           if(rs.next()){  
             // 1(uno): refiere a la columna de los id.
@@ -66,7 +68,7 @@ public class AlumnoData {
   
     }
  
-  
+ //Actualizar informacion de un alumno de la BD. 
   public void modificarAlumno(Alumno alumno){
       
     String sql="UPDATE alumno SET dni=?, apellido=?, nombre=?, fechaNacimiento=? WHERE idAlumno=?";
@@ -91,8 +93,8 @@ public class AlumnoData {
         }
   }
   
-  //Este remove es logico, solo cambia el estado del alumno 
-  // 1=Activo y 0=Desactivado.
+  //Remove logico, solo cambia el estado del alumno 
+  //          1(activo) or 0 (Desactivado).
    public void eliminarAlumno(int id){
        String sql="UPDATE alumno SET estado = 0 WHERE idAlumno =?";
        
@@ -109,7 +111,7 @@ public class AlumnoData {
        
    } 
   
-  
+ // Recupera un alumno-Verifica que el estado se 1(activo)
    public Alumno buscarAlumno(int id){
        
     String sql= "SELECT dni, apellido,nombre, fechaNacimiento FROM alumno WHERE idAlumno =? AND estado =1";
@@ -136,7 +138,7 @@ public class AlumnoData {
        return alumno;
     }
     
- 
+ // Busca un alumno por su número de documento (DNI) y devuelve un objeto Alumno.
   public Alumno buscarAlumnoPorDni(int dni){
      
     String sql="SELECT idAlumno, dni, apellido, nombre,fechaNacimiento FROM alumno WHERE dni=? AND estado=1 ";
@@ -161,8 +163,10 @@ public class AlumnoData {
            JOptionPane.showMessageDialog(null,"ERROR:No se puede acceder a la tabla alumno");
         }
        return alumno;
-    }   
-   
+    }  
+  
+  
+// Devuelve una lista de todos los alumnos activos en la base de datos. 
   public List<Alumno> listarAlumno(){
       String sql="SELECT idAlumno, dni, apellido, nombre,fechaNacimiento FROM alumno WHERE estado=1 ";
       ArrayList<Alumno> alumnos=new ArrayList<>();
