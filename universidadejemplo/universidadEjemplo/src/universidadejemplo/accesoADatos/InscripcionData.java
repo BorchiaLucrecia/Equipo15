@@ -28,29 +28,31 @@ public class InscripcionData {
 
         //Hay que hacer el for y el if para que no se duplique una inscripcion
         for (Inscripcion ins : obtenerInscripcion()) {
+            if (ins.getAlumno().getIdAlumno() == insc.getAlumno().getIdAlumno()
+                    && ins.getMateria().getIdMateria() == insc.getMateria().getIdMateria()) {
+                JOptionPane.showMessageDialog(null, "El Alumno/a ya se encuentra Inscripto");
+            } else {
+                try {
+                    PreparedStatement ps = con.prepareStatement(sql);
+                    ps.setDouble(1, insc.getNota());
+                    ps.setInt(2, insc.getAlumno().getIdAlumno());
+                    ps.setInt(3, insc.getMateria().getIdMateria());
 
+                    ps.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Inscripción Exitosa");
+
+                    ps.close();
+
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error al guardar la Inscripción");
+                }
+            }
         }
-
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setDouble(1, insc.getNota());
-            ps.setInt(2, insc.getAlumno().getIdAlumno());
-            ps.setInt(3, insc.getMateria().getIdMateria());
-
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Inscripción Exitosa");
-
-            ps.close();
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al guardar la Inscripción");
-        }
-
     }
 
     //BORRAR UNA INSCRIPCIÓN
     public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria) {
-        String sql = "DELETE FROM inscripcion WHERE ? AND ?";
+        String sql = "DELETE FROM inscripcion WHERE idAlumno=? AND idMateria=?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -102,11 +104,11 @@ public class InscripcionData {
                 insc.setAlumno(aluData.buscarAlumno(rs.getInt("idAlumno")));
                 insc.setMateria(matData.buscarMateria(rs.getInt("idMateria")));
                 listaInscripciones.add(insc);
-                
+
                 stp.close();
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error SQL contacte administrador" + ex.getMessage(), 
+            JOptionPane.showMessageDialog(null, "Error SQL contacte administrador" + ex.getMessage(),
                     "Error Conexion base de datos sql", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -150,7 +152,7 @@ public class InscripcionData {
 
     //ArrayList con Materias cursadas por Alumnos listadas por id
     public List<Materia> obtenerMateriasCursadas(int id) {
-        List<Materia> materias = new ArrayList<Materia>();
+        List<Materia> materias = new ArrayList<>();
         String sql = "SELECT inscripcion.idMateria, nombre, anio FROM inscripcion, "
                 + "materia WHERE inscripcion.idMateria = materia.idMateria AND inscripcion.idAlumno= ?";
 
@@ -172,42 +174,54 @@ public class InscripcionData {
         }
         return materias;
     }
+
     //ArrayList con Materias NO Cursadas por Alumno listadas por id
-    public List<Materia> obtenerMateriasNoCursadas(int id){
-        List<Materia> materias =new ArrayList<Materia>();
-        String sql= "SELECT inscripcion.idMateria, nombre FROM inscripcion, materia WHERE inscripcion.idMateria = materia.idMateria AND inscripcion.idAlumno= null;";
-        
+    public List<Materia> obtenerMateriasNoCursadas(int id) {
+        List<Materia> materias = new ArrayList<>();
+        String sql = "SELECT inscripcion.idMateria, nombre FROM inscripcion, materia WHERE inscripcion.idMateria = materia.idMateria AND inscripcion.idAlumno= null;";
+
         try {
-            PreparedStatement ps= con.prepareStatement(sql);
-            ResultSet rs= ps.executeQuery();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
             Materia materia;
             while (rs.next()) {
                 materia = new Materia();
                 materia.setIdMateria(rs.getInt("idMateria"));
                 materia.setNombre(rs.getString("nombre"));
-                materias.add(materia);  
+                materias.add(materia);
             }
             ps.close();
-            
-            
+
         } catch (SQLException ex) {
-             JOptionPane.showMessageDialog(null, "ERROR al mostrar materias NO cursadas");
+            JOptionPane.showMessageDialog(null, "ERROR al mostrar materias NO cursadas");
         }
-        
+
         return materias;
-                
+
     }
 
     //ArrayList de Alumnos inscriptos a cada Materia
-    public List<Alumno> obtenerAlumnosXMateria (int idMateria){
-        List<Alumno> alumno = new ArrayList<Alumno>();
-        String sql= "SELECT materia.nombre, alumno.nombre, alumno.apellido  \n" +
-        "FROM `inscripcion` \n" +
-        "JOIN alumno ON inscripcion.idInscripto \n" +
-        "JOIN materia ON inscripcion.idMateria;";
-        //PreparedStatement ps= con
-        
-        //FALTA TERMINAR LIST
-     return alumno;
+    public List<Alumno> obtenerAlumnosXMateria(int idMateria) {
+        List<Alumno> alumno = new ArrayList<>();
+        String sql = "SELECT materia.nombre, alumno.nombre, alumno.apellido "
+                + "FROM `inscripcion` JOIN alumno ON inscripcion.idInscripto "
+                + "JOIN materia ON inscripcion.idMateria";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            Alumno alu;
+
+            while (rs.next()) {
+                alu = new Alumno();
+                alu.setNombre(rs.getString("nombre"));
+                alu.setApellido(rs.getString("apellido"));
+                alumno.add(alu);
+
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "ERROR al listar alumnos inscriptos a la materia "+ idMateria);
+
+        }
+        return alumno;
     }
 }
