@@ -209,7 +209,7 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
           jTFapellido.setText(estudiante.getApellido());
           jTFnombre.setText(estudiante.getNombre());
          
-         //devuelve fecha en el Chooser, FALTA PROBAR!!
+         //devuelve fecha en el Chooser
           LocalDate fechaNacimiento=estudiante.getFechaNacimiento();
           java.util.Date fechaUtil=java.sql.Date.valueOf(fechaNacimiento);
           
@@ -267,8 +267,11 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
       int idAlumno = Integer.parseInt(idAlumnoText);
       
       AlumnoData alumnoData = new AlumnoData();
-      alumnoData.eliminarAlumno(idAlumno);
-     
+     //Se muestra un diálogo de confirmación antes de eliminar Alumno
+     int respuesta= JOptionPane.showConfirmDialog(null,"Realmente desea eliminar al alumno?");
+     if(respuesta==0){
+         alumnoData.eliminarAlumno(idAlumno);
+     }
          jTFDni.setText("");
          jTFapellido.setText("");
          jTFnombre.setText("");
