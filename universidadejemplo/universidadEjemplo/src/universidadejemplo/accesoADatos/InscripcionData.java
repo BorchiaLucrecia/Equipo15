@@ -62,7 +62,7 @@ public class InscripcionData {
             ps.setInt(1, idAlumno);
             ps.setInt(2, idMateria);
 
-            int borrar = ps.executeUpdate(sql);
+            int borrar = ps.executeUpdate();
             if (borrar == 1) {
                 JOptionPane.showMessageDialog(null, "Inscripción Borrada");
             }
@@ -83,7 +83,7 @@ public class InscripcionData {
             ps.setInt(2, idAlumno);
             ps.setInt(3, idMateria);
 
-            int actualizar = ps.executeUpdate(sql);
+            int actualizar = ps.executeUpdate();
             if (actualizar == 1) {
                 JOptionPane.showMessageDialog(null, "Nota Actualizada Correctamente");
             }
@@ -110,8 +110,8 @@ public class InscripcionData {
                 insc.setMateria(matData.buscarMateria(rs.getInt("idMateria")));
                 listaInscripciones.add(insc);
 
-                stp.close();
             }
+            rs.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error SQL contacte administrador" + ex.getMessage(),
                     "Error Conexion base de datos sql", JOptionPane.ERROR_MESSAGE);
@@ -135,8 +135,8 @@ public class InscripcionData {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
+            
             while (rs.next()) {
-
                 Inscripcion inscripcion = new Inscripcion();
                 alm.setNombre(rs.getString("nombre"));
                 alm.setApellido(rs.getString("apellido"));
@@ -145,9 +145,10 @@ public class InscripcionData {
                 mat.setAnioMateria(rs.getInt("anio"));
                 inscripcion.setAlumno(alm);
                 inscripcion.setMateria(mat);
+                inscripciones.add(inscripcion);
 
             }
-            ps.close();
+            rs.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "ERROR:No se puede cargar una o más inscripciones");
         }
@@ -156,18 +157,17 @@ public class InscripcionData {
     }
 
     //ArrayList con Materias cursadas por Alumnos listadas por id
-    public List<Materia> obtenerMateriasCursadas(int id) {
+    public List<Materia> obtenerMateriasCursadas(int idAlumno) {
         List<Materia> materias = new ArrayList<>();
         String sql = "SELECT inscripcion.idMateria, nombre, anio FROM inscripcion, "
                 + "materia WHERE inscripcion.idMateria = materia.idMateria AND inscripcion.idAlumno= ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setInt(1, idAlumno);
             ResultSet rs = ps.executeQuery();
-            Materia materia;
             while (rs.next()) {
-                materia = new Materia();
+               Materia materia = new Materia();
                 materia.setIdMateria(rs.getInt("idMateria"));
                 materia.setNombre(rs.getString("nombre"));
                 materia.setAnioMateria(rs.getInt("anio"));
@@ -188,10 +188,10 @@ public class InscripcionData {
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            Materia materia;
             while (rs.next()) {
-                materia = new Materia();
+                Materia materia = new Materia();
                 materia.setIdMateria(rs.getInt("idMateria"));
                 materia.setNombre(rs.getString("nombre"));
                 materia.setAnioMateria(rs.getInt("anio"));

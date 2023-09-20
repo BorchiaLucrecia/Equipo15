@@ -1,14 +1,22 @@
 package universidadejemplo.vistas;
 
+import java.awt.Component;
+import java.awt.event.ItemEvent;
 import java.util.List;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import universidadejemplo.accesoADatos.AlumnoData;
 import universidadejemplo.accesoADatos.InscripcionData;
+import universidadejemplo.accesoADatos.MateriaData;
 import universidadejemplo.entidades.Alumno;
 import universidadejemplo.entidades.Materia;
 
 public class GestionInscripciones extends javax.swing.JInternalFrame {
-
+    private AlumnoData alumnoData = new AlumnoData();
+    private InscripcionData inscripcionData = new InscripcionData();
+    
     private DefaultTableModel modelo = new DefaultTableModel();
 
     public GestionInscripciones() {
@@ -88,6 +96,11 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
         jBInscribir.setText("Inscrbir");
 
         jBanularInsc.setText("Anular Inscripción");
+        jBanularInsc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBanularInscActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -148,16 +161,22 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
             jBInscribir.setEnabled(true); //Activa el boton de Inscribir
             jBanularInsc.setEnabled(false); //Desactiva el boton de Anular Inscripcion
 
-            InscripcionData idata =new InscripcionData();
-            Alumno alumno=new Alumno();
-            
-            for (Materia matNoCursadas : idata.obtenerMateriasNoCursadas(alumno.getDni())) {
-                modelo.addRow(new Object[]{matNoCursadas.getIdMateria(),matNoCursadas.getNombre(),matNoCursadas.getAnioMateria()});
-            }
-            jCBalumno.getSelectedItem();
-            
-            ///////FALTA TERMINAR 
+        limpiarTabla();
+        
+        //Obtener el nombre del alumno 
+        Alumno selectedAlumno = (Alumno) jCBalumno.getSelectedItem();
+        
+        //Obtener materias no inscriptas
+        List<Materia> materiasNoInscriptas = inscripcionData.obtenerMateriasNoCursadas(selectedAlumno.getIdAlumno());
+//            InscripcionData idata =new InscripcionData();
+//            Alumno alumno=new Alumno();
 
+        //Actualizar tabla:
+            for (Materia materia : materiasNoInscriptas) {
+                modelo.addRow(new Object[]{materia.getIdMateria(),materia.getNombre(),materia.getAnioMateria()});
+            }
+//            jCBalumno.getSelectedItem();
+            
         }else{
             limpiarTabla();
             jRBmateriasInsc.setEnabled(true);
@@ -165,6 +184,7 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
             jBanularInsc.setEnabled(true);
         }
     }//GEN-LAST:event_jRBmateriasNoInscActionPerformed
+   
     //Acción del botón MATERIAS INSCRIPTAS
     private void jRBmateriasInscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBmateriasInscActionPerformed
         if (jRBmateriasInsc.isSelected()) {
@@ -172,20 +192,81 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
             jBInscribir.setEnabled(false);
             jBanularInsc.setEnabled(true);
             
-            ////////FALTA TERMINAR
+            limpiarTabla();
+
+   //Obtener el nombre del alumno 
+            Alumno selectedAlumno = (Alumno) jCBalumno.getSelectedItem();
+   
+//Obtener materias inscriptas
+            List<Materia> materiasInscriptas = inscripcionData.obtenerMateriasCursadas(selectedAlumno.getIdAlumno());
+     
+        // Actualizar tabla   
+            for (Materia materia : materiasInscriptas){
+                modelo.addRow (new Object[]{materia.getIdMateria(),materia.getNombre(),materia.getAnioMateria()});
+            }
+        }else{
+            limpiarTabla();
+            jRBmateriasNoInsc.setEnabled(true);
+            jBInscribir.setEnabled(true);
+            jBanularInsc.setEnabled(true);
         }
 
     }//GEN-LAST:event_jRBmateriasInscActionPerformed
 
     private void jCBalumnoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCBalumnoItemStateChanged
-            ////////FALTA TERMINAR
+        if (evt.getStateChange()==ItemEvent.SELECTED){
+   //Obtiene el alumno
+           Alumno selectedAlumno = (Alumno) jCBalumno.getSelectedItem();
+            
+            limpiarTabla();
+     
+            if(jRBmateriasInsc.isSelected()){
+            //Obtener materias inscriptas para el alumno
+                List<Materia> materiasInscriptas=inscripcionData.obtenerMateriasCursadas(selectedAlumno.getIdAlumno());
+            //Actualizar tabla
+                for (Materia materia : materiasInscriptas){
+                    modelo.addRow(new Object[]{materia.getIdMateria(),materia.getNombre(),materia.getAnioMateria()});
+                }
+            }else if(jRBmateriasNoInsc.isSelected()){
+            //Obener las materias no inscriptas
+              List<Materia> materiasNoInscriptas =inscripcionData.obtenerMateriasNoCursadas(selectedAlumno.getIdAlumno());
+            
+            //Actualizar tabla
+                for(Materia materia:materiasNoInscriptas){
+                    modelo.addRow(new Object[]{materia.getIdMateria(),materia.getNombre(),materia.getAnioMateria()});
+                }
+            }  
+        }
     }//GEN-LAST:event_jCBalumnoItemStateChanged
+
+    private void jBanularInscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBanularInscActionPerformed
+        // TODO add your handling code here:
+        InscripcionData inscripcionData = new InscripcionData();
+        int selectMateria = jTMaterias.getSelectedRow();
+        
+        if (selectMateria !=-1){
+      //Obtener valores de la materia elegida
+           int idMateria = (int) jTMaterias.getValueAt(selectMateria,0);
+       
+      //Obtener el alumno seleccionado
+           Alumno selectedAlumno = (Alumno) jCBalumno.getSelectedItem();
+           int idAlumno = selectedAlumno.getIdAlumno();
+           
+           int respuesta= JOptionPane.showConfirmDialog(null,"Realmente anular la inscripción?");
+           
+      //Metodo
+            if(respuesta==0){
+                inscripcionData.borrarInscripcionMateriaAlumno(idAlumno, idMateria);
+     }
+     
+        }
+    }//GEN-LAST:event_jBanularInscActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBInscribir;
     private javax.swing.JButton jBanularInsc;
-    private javax.swing.JComboBox<String> jCBalumno;
+    private javax.swing.JComboBox<Alumno> jCBalumno;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JRadioButton jRBmateriasInsc;
@@ -194,13 +275,18 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTMaterias;
     // End of variables declaration//GEN-END:variables
 
+// Método para cargar el JComboBox con la lista de alumnos
+   //Obtenemos el objeto alumno completo y podemos acceder a su ID. 
+    
     private void cargarCombo() {
-        AlumnoData alum = new AlumnoData();
-        for (Alumno alumno : alum.listarAlumno()) {
-            jCBalumno.addItem(alumno.toString());
-        }
+ // Obtener la lista de alumnos desde AlumnoData
+        List<Alumno> alumnos = alumnoData.listarAlumno();       
+     for (Alumno alumno : alumnos) {
+         jCBalumno.addItem(alumno);
+     }  
+        jCBalumno.setRenderer(new AlumnoComboBox());
         jCBalumno.setSelectedIndex(-1);
-
+        
     }
     //Método para Armar la Cabecera de la Tabla
     private void armarCabecera() {
@@ -215,5 +301,20 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
         for (int f = modelo.getRowCount() - 1; f >= 0; f--) {
                 modelo.removeRow(f);
         }
+    }
+    
+    
+   //Personaliza como se muestra cada elemento en el JcomboBox como se hace con las tablas.
+    
+    private class AlumnoComboBox extends DefaultListCellRenderer{
+     @Override   
+     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus){
+         if (value instanceof Alumno){
+             Alumno alumno =(Alumno) value;
+          //Personaliza el jcombobox
+            setText(alumno.toString());
+         }
+         return this;
+     }
     }
 }
