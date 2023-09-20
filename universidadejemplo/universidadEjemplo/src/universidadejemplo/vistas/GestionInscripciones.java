@@ -3,7 +3,9 @@ package universidadejemplo.vistas;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import universidadejemplo.accesoADatos.AlumnoData;
+import universidadejemplo.accesoADatos.InscripcionData;
 import universidadejemplo.entidades.Alumno;
+import universidadejemplo.entidades.Materia;
 
 public class GestionInscripciones extends javax.swing.JInternalFrame {
 
@@ -155,6 +157,12 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
             jBInscribir.setEnabled(true); //Activa el boton de Inscribir
             jBanularInsc.setEnabled(false); //Desactiva el boton de Anular Inscripcion
 
+            InscripcionData idata =new InscripcionData();
+            Alumno alumno=new Alumno();
+            
+            for (Materia matNoCursadas : idata.obtenerMateriasNoCursadas(alumno.getDni())) {
+                modelo.addRow(new Object[]{matNoCursadas.getIdMateria(),matNoCursadas.getNombre(),matNoCursadas.getAnioMateria()});
+            }
             jCBalumno.getSelectedItem();
             
             ///////FALTA TERMINAR 
