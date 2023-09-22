@@ -272,35 +272,45 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
         if (selectMateria != -1) {
             //Obtener valores de la materia elegida
             int idMateria = (int) jTMaterias.getValueAt(selectMateria, 0);
-            String nombreMat =(String) jTMaterias.getValueAt(selectMateria, 1);
-            boolean estadoMat =(boolean) jTMaterias.getValueAt(selectMateria, 2);
+            String nombreMat = (String) jTMaterias.getValueAt(selectMateria, 1);
+            int anioMateria = (int) jTMaterias.getValueAt(selectMateria, 2);
+            boolean estadoMat = true;
 
             //Obtener el alumno seleccionado
             Alumno selectedAlumno = (Alumno) jCBalumno.getSelectedItem();
             int idAlumno = selectedAlumno.getIdAlumno();
 
-            int respuesta = JOptionPane.showConfirmDialog(null, "Desea inscribir al alumno " + idAlumno
-                    + " a la materia: " + jTMaterias.getSelectedRow());
-
-////////////// ERROR EN TIEMPO DE EJECUCCION
+            int respuesta = JOptionPane.showConfirmDialog(null, "Desea inscribir al alumno "
+                    + selectedAlumno.getApellido() + ", " + selectedAlumno.getNombre()
+                    + " a la materia: " + nombreMat);
 
             //Metodo
             if (respuesta == 0) {
                 Inscripcion i = new Inscripcion();
                 Materia m = new Materia();
-                                
+
                 m.setIdMateria(idMateria);
                 m.setNombre(nombreMat);
-                m.setEstado(estadoMat); 
-                                
+                m.setAnioMateria(anioMateria);
+                m.setEstado(estadoMat);
+
                 i.setMateria(m);
                 i.setAlumno(selectedAlumno);
                 i.setNota(0);
-            
-            //Hay que pasarle como parámetro una Inscripcion (Materia materia, Alumno alumno, nota)
+
+                //Hay que pasarle como parámetro una Inscripcion (Materia materia, Alumno alumno, nota)
                 inscripcionData.guardarInscripcion(i);
+
+                // Aquí actualizamos la tabla de no inscriptas para pasarlas a las materias inscriptas 
+                DefaultTableModel modelNoInscritas = (DefaultTableModel) jTMaterias.getModel();
+                modelNoInscritas.removeRow(selectMateria);
                 
-            }else JOptionPane.showMessageDialog(null, "Se canceló la Inscripción");
+                DefaultTableModel modelInscritas = (DefaultTableModel) jTMaterias.getModel();
+                modelInscritas.addRow(new Object[]{idMateria, nombreMat, estadoMat});
+
+            } else if (respuesta == 1) {
+                JOptionPane.showMessageDialog(null, "Se canceló la Inscripción");
+            }
 
         }
 

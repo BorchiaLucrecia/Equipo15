@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -23,37 +24,32 @@ public class InscripcionData {
 
     //GUARDAR INSCRIPCION (Inscripcion(Materia materia, Alumno alumno, nota)
     public void guardarInscripcion(Inscripcion insc) {
-        String sql = "INSERT INTO inscripcion(nota, idAlumno, idMateria) VALUES (?,?,?)";
+        try{
+        String sql = "INSERT INTO inscripcion(nota, idAlumno, idMateria) VALUES (?,?,?)";        
+        
+            PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            ps.setDouble(1, insc.getNota());
+            ps.setInt(2, insc.getAlumno().getIdAlumno());
+            ps.setInt(3, insc.getMateria().getIdMateria());
 
-        //Hay que hacer el for y el if para que no se duplique una inscripcion
-        for (Inscripcion ins : obtenerInscripcion()) {
-            if (ins.getAlumno().getIdAlumno() == insc.getAlumno().getIdAlumno()
-                    && ins.getMateria().getIdMateria() == insc.getMateria().getIdMateria()) {
-                JOptionPane.showMessageDialog(null, "El Alumno/a ya se encuentra Inscripto");
-            } else {
-                try {
-                    PreparedStatement ps = con.prepareStatement(sql);
-                    ps.setDouble(1, insc.getNota());
-                    ps.setInt(2, insc.getAlumno().getIdAlumno());
-                    ps.setInt(3, insc.getMateria().getIdMateria());
-
-                    ps.executeUpdate();
-                    ResultSet rs = ps.getGeneratedKeys();
-                    if (rs.next()) {
-                        insc.setIdInscripcion(rs.getInt(1));
-                        JOptionPane.showMessageDialog(null, "Inscripción Exitosa");
-                    }
-
-                    ps.close();
-
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Error al guardar la Inscripción");
-                }
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            System.out.println("RS "+rs);
+            
+            if (rs.next()) {
+                insc.setIdInscripcion(rs.getInt(1));
+                JOptionPane.showMessageDialog(null, "Inscripción Exitosa");
             }
+
+            //ps.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Error al guardar la Inscripción");
         }
     }
 
-    //BORRAR UNA INSCRIPCIÓN
+
+//BORRAR UNA INSCRIPCIÓN
     public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria) {
         String sql = "DELETE FROM inscripcion WHERE idAlumno=? AND idMateria=?";
 
@@ -135,7 +131,7 @@ public class InscripcionData {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 Inscripcion inscripcion = new Inscripcion();
                 alm.setNombre(rs.getString("nombre"));
@@ -167,7 +163,7 @@ public class InscripcionData {
             ps.setInt(1, idAlumno);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-               Materia materia = new Materia();
+                Materia materia = new Materia();
                 materia.setIdMateria(rs.getInt("idMateria"));
                 materia.setNombre(rs.getString("nombre"));
                 materia.setAnioMateria(rs.getInt("anio"));
@@ -215,7 +211,7 @@ public class InscripcionData {
                 + "idMateria = ? and a.estado = 1";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1,idMateria);
+            ps.setInt(1, idMateria);
             ResultSet rs = ps.executeQuery();
             Alumno alu;
 
@@ -230,7 +226,7 @@ public class InscripcionData {
 
             }
             ps.close();
-            
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "ERROR al listar alumnos inscriptos a la materia " + idMateria);
 
