@@ -22,6 +22,8 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
 
     public GestionInscripciones() {
         initComponents();
+        this.setSize(500,500);
+        this.setTitle("Sistema de gestion de INSCRIPCIONES");
         cargarCombo();
         armarCabecera();
         limpiarTabla();
@@ -40,13 +42,15 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
         jTMaterias = new javax.swing.JTable();
         jBInscribir = new javax.swing.JButton();
         jBanularInsc = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setResizable(true);
         setTitle("Formulario de inscripciones");
         setPreferredSize(new java.awt.Dimension(340, 400));
 
-        jLabel2.setText("Alumno:");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("Seleccionar alumno:");
 
         jCBalumno.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -57,6 +61,7 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
         jLabel3.setText("Listado de Materias");
 
+        jRBmateriasInsc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jRBmateriasInsc.setText("Materias Inscriptas");
         jRBmateriasInsc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,6 +69,7 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
             }
         });
 
+        jRBmateriasNoInsc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jRBmateriasNoInsc.setText("Materias no inscriptas");
         jRBmateriasNoInsc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,6 +114,13 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setText("Nueva consulta");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -116,44 +129,48 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jBInscribir)
+                        .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBanularInsc)
-                        .addGap(26, 26, 26))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(32, 32, 32)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jCBalumno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jRBmateriasInsc)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                                .addComponent(jRBmateriasNoInsc)))
-                        .addGap(30, 30, 30))))
+                        .addComponent(jBInscribir)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBanularInsc))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(jRBmateriasInsc)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jRBmateriasNoInsc)
+                        .addGap(47, 47, 47))
+                    .addComponent(jCBalumno, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(172, 172, 172)
+                .addComponent(jLabel3)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jCBalumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCBalumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
                 .addComponent(jLabel3)
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRBmateriasInsc)
-                    .addComponent(jRBmateriasNoInsc))
-                .addGap(31, 31, 31)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRBmateriasNoInsc)
+                    .addComponent(jRBmateriasInsc))
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBanularInsc)
-                    .addComponent(jBInscribir))
+                    .addComponent(jBInscribir)
+                    .addComponent(jButton1))
                 .addGap(34, 34, 34))
         );
 
@@ -317,10 +334,22 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jBInscribirActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        jCBalumno.setSelectedIndex(-1); 
+        jRBmateriasInsc.setSelected(false);
+        jRBmateriasNoInsc.setSelected(false);
+    
+        DefaultTableModel model = (DefaultTableModel) jTMaterias.getModel();
+        model.setRowCount(0); // Limpia todas las filas de la tabla
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBInscribir;
     private javax.swing.JButton jBanularInsc;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<Alumno> jCBalumno;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

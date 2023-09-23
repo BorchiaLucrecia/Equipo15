@@ -16,6 +16,8 @@ public class GestionNotas extends javax.swing.JInternalFrame {
      */
     public GestionNotas() {
         initComponents();
+        this.setSize(500,500);
+        this.setTitle("Sistema de gestion de NOTAS");
     }
 
     /**
