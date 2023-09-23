@@ -37,8 +37,6 @@ private MateriaData materiaData;
 
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jRBestadoMateria = new javax.swing.JRadioButton();
         jTFcodigo = new javax.swing.JTextField();
         jTFnomMateria = new javax.swing.JTextField();
         jTFanio = new javax.swing.JTextField();
@@ -58,9 +56,6 @@ private MateriaData materiaData;
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Año:");
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setText("Estado:");
 
         jBbuscarMateria.setText("Buscar");
         jBbuscarMateria.addActionListener(new java.awt.event.ActionListener() {
@@ -114,11 +109,6 @@ private MateriaData materiaData;
                                 .addComponent(jBEliminar))
                             .addComponent(jTFcodigo)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jRBestadoMateria)
-                                .addGap(80, 80, 80))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6)
                                     .addComponent(jLabel7)
@@ -147,7 +137,7 @@ private MateriaData materiaData;
                 .addComponent(jTFcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jBbuscarMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(39, 39, 39)
                 .addComponent(jLabel7)
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -157,17 +147,13 @@ private MateriaData materiaData;
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTFanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRBestadoMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(44, 44, 44)
+                .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBguardar)
                     .addComponent(jBEliminar))
                 .addGap(18, 18, 18)
                 .addComponent(jBnuevConsulta)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -235,7 +221,7 @@ private MateriaData materiaData;
         jTFcodigo.setText("");
         jTFnomMateria.setText("");
         jTFanio.setText("");
-        jRBestadoMateria.setSelected(false);
+        
     }//GEN-LAST:event_jBnuevConsultaActionPerformed
    
 
@@ -247,10 +233,8 @@ private MateriaData materiaData;
     private javax.swing.JButton jBnuevConsulta;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JRadioButton jRBestadoMateria;
     private javax.swing.JTextField jTFanio;
     private javax.swing.JTextField jTFcodigo;
     private javax.swing.JTextField jTFnomMateria;
