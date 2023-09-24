@@ -14,7 +14,9 @@ import universidadejemplo.entidades.Materia;
  * @author borch
  */
 public class GestionMateria extends javax.swing.JInternalFrame {
-private MateriaData materiaData;
+
+    private MateriaData materiaData;
+
     /**
      * Creates new form GestionMateria
      */
@@ -22,7 +24,7 @@ private MateriaData materiaData;
         initComponents();
         this.setSize(500, 500);
         this.setTitle("Sistema de gestión de MATERIAS");
-     
+
         materiaData = new MateriaData();
     }
 
@@ -153,7 +155,7 @@ private MateriaData materiaData;
                     .addComponent(jBEliminar))
                 .addGap(18, 18, 18)
                 .addComponent(jBnuevConsulta)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
@@ -162,58 +164,59 @@ private MateriaData materiaData;
     private Integer idMat;
     private void jBbuscarMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarMateriaActionPerformed
         // TODO add your handling code here:
-    //Obtener ID materia
-       int idMateriaBuscar = Integer.parseInt(jTFcodigo.getText());
-     
-    // Llamar a la función
-       Materia mat = materiaData.buscarMateria(idMateriaBuscar);
-    
-    if (mat != null){
-        idMat= mat.getIdMateria();
-        jTFnomMateria.setText(mat.getNombre());
-        jTFanio.setText(String.valueOf(mat.getAnioMateria()));
-    }else{
-        idMat=null;
-        JOptionPane.showMessageDialog(null,"No se encontró la materia.");
-    }
+        //Obtener ID materia
+        int idMateriaBuscar = Integer.parseInt(jTFcodigo.getText());
+
+        // Llamar a la función
+        Materia mat = materiaData.buscarMateria(idMateriaBuscar);
+
+        if (mat != null) {
+            idMat = mat.getIdMateria();
+            jTFnomMateria.setText(mat.getNombre());
+            jTFanio.setText(String.valueOf(mat.getAnioMateria()));
+        } else {
+            idMat = null;
+            JOptionPane.showMessageDialog(null, "No se encontró la materia.");
+        }
     }//GEN-LAST:event_jBbuscarMateriaActionPerformed
 
     // Variable para almacenar el ID de la materia
     private Integer idMateria;
-    
+
     private void jBguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBguardarActionPerformed
         // TODO add your handling code here:
-    //Obtener datos 
+        //Obtener datos 
         String nombreMateria = jTFnomMateria.getText();
         int anioMateria = Integer.parseInt((jTFanio.getText()));
-    
-    //Verifico
-        if (idMat != null){
+
+        //Verifico
+        if (idMat != null) {
             //Modifica materia existente
-            Materia materia = new Materia(idMat,nombreMateria,anioMateria,true);
+            Materia materia = new Materia(idMat, nombreMateria, anioMateria, true);
             materiaData.modificarMateria(materia);
-        }else{
+        } else {
             //Guarda nueva materia
             Materia materia = new Materia(nombreMateria, anioMateria, true);
             materiaData.guardarMateria(materia);
         }
-        
-      jTFnomMateria.setText("");
-      jTFanio.setText("");
-      jTFcodigo = null; 
+
+        jTFnomMateria.setText("");
+        jTFanio.setText("");
+        jTFcodigo = null;
     }//GEN-LAST:event_jBguardarActionPerformed
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
         // TODO add your handling code here:
         int idMateriaEliminar = Integer.parseInt(jTFcodigo.getText());
-        int respuesta= JOptionPane.showConfirmDialog(null,"Realmente desea eliminar la materia?");
-     if(respuesta==0){
-        materiaData.eliminarMateria(idMateriaEliminar);
-        JOptionPane.showMessageDialog(null, "Materia eliminada");
-     }
-      jTFnomMateria.setText("");
-      jTFanio.setText("");
-      jTFcodigo = null; 
+        int respuesta = JOptionPane.showConfirmDialog(null, "Realmente desea eliminar la materia?");
+        if (respuesta == 0) {
+            materiaData.eliminarMateria(idMateriaEliminar);
+            JOptionPane.showMessageDialog(null, "Materia eliminada");
+        } else {
+            jTFnomMateria.setText("");
+            jTFanio.setText("");
+            jTFcodigo.setText("");
+        }
     }//GEN-LAST:event_jBEliminarActionPerformed
 
     private void jBnuevConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBnuevConsultaActionPerformed
@@ -221,9 +224,8 @@ private MateriaData materiaData;
         jTFcodigo.setText("");
         jTFnomMateria.setText("");
         jTFanio.setText("");
-        
+
     }//GEN-LAST:event_jBnuevConsultaActionPerformed
-   
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

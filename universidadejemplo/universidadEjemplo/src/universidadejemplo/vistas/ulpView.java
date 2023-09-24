@@ -104,9 +104,13 @@ public class ulpView extends javax.swing.JFrame {
         jMenuBar1.add(jMconsultas);
 
         jMsalir.setText("Salir");
-        jMsalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMsalirActionPerformed(evt);
+        jMsalir.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                jMsalirMenuSelected(evt);
             }
         });
         jMenuBar1.add(jMsalir);
@@ -192,15 +196,14 @@ public class ulpView extends javax.swing.JFrame {
         jDesktopPane.moveToFront(AlumnoxMat);
     }//GEN-LAST:event_jMalumxMateriaActionPerformed
 
-    private void jMsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMsalirActionPerformed
+    private void jMsalirMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMsalirMenuSelected
         jDesktopPane.removeAll();
         jDesktopPane.repaint();
         int salir = JOptionPane.showConfirmDialog(null, "Desea Salir del Sistema? ");
         if (salir == 0) { //Si la opción es SI
-            int exit = ulpView.EXIT_ON_CLOSE;
-            System.exit(exit);
+            System.exit(salir);
         }
-    }//GEN-LAST:event_jMsalirActionPerformed
+    }//GEN-LAST:event_jMsalirMenuSelected
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

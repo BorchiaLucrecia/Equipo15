@@ -39,7 +39,7 @@ public class Conexion {
               JOptionPane.showMessageDialog(null,"ERROR: No se pueden cargar los driver");
               
           } catch (SQLException ex) {
-             JOptionPane.showMessageDialog(null,"ERROR: No se puede conectas a la BASE DE DATOS");
+             JOptionPane.showMessageDialog(null,"ERROR: No se puede conectar a la BASE DE DATOS");
           }     
       }
       return connection;

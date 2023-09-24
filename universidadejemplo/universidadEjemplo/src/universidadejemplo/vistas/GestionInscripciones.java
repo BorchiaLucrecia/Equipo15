@@ -22,7 +22,7 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
 
     public GestionInscripciones() {
         initComponents();
-        this.setSize(500,500);
+        this.setSize(500, 500);
         this.setTitle("Sistema de gestion de INSCRIPCIONES");
         cargarCombo();
         armarCabecera();
@@ -94,6 +94,8 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Año"
             }
         ));
+        jTMaterias.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jTMaterias.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTMaterias.setFillsViewportHeight(true);
         jScrollPane1.setViewportView(jTMaterias);
         if (jTMaterias.getColumnModel().getColumnCount() > 0) {
@@ -134,14 +136,14 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
                         .addComponent(jBInscribir)
                         .addGap(18, 18, 18)
                         .addComponent(jBanularInsc))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(jRBmateriasInsc)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                         .addComponent(jRBmateriasNoInsc)
                         .addGap(47, 47, 47))
                     .addComponent(jCBalumno, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -180,7 +182,7 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
     //Acción del botón MATERIAS NO INSCRIPTAS
     private void jRBmateriasNoInscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBmateriasNoInscActionPerformed
         if (jRBmateriasNoInsc.isSelected()) {
-            jRBmateriasInsc.setEnabled(false); //Desactiva el radio button de materias inscriptas
+            jRBmateriasInsc.setSelected(false); //Desactiva el radio button de materias inscriptas
             jBInscribir.setEnabled(true); //Activa el boton de Inscribir
             jBanularInsc.setEnabled(false); //Desactiva el boton de Anular Inscripcion
 
@@ -191,18 +193,14 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
 
             //Obtener materias no inscriptas
             List<Materia> materiasNoInscriptas = inscripcionData.obtenerMateriasNoCursadas(selectedAlumno.getIdAlumno());
-//            InscripcionData idata =new InscripcionData();
-//            Alumno alumno=new Alumno();
 
             //Actualizar tabla:
             for (Materia materia : materiasNoInscriptas) {
                 modelo.addRow(new Object[]{materia.getIdMateria(), materia.getNombre(), materia.getAnioMateria()});
             }
-//            jCBalumno.getSelectedItem();
 
         } else {
             limpiarTabla();
-            jRBmateriasInsc.setEnabled(true);
             jBInscribir.setEnabled(true);
             jBanularInsc.setEnabled(true);
         }
@@ -211,7 +209,7 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
     //Acción del botón MATERIAS INSCRIPTAS
     private void jRBmateriasInscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBmateriasInscActionPerformed
         if (jRBmateriasInsc.isSelected()) {
-            jRBmateriasNoInsc.setEnabled(false);
+            jRBmateriasNoInsc.setSelected(false);
             jBInscribir.setEnabled(false);
             jBanularInsc.setEnabled(true);
 
@@ -229,7 +227,6 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
             }
         } else {
             limpiarTabla();
-            jRBmateriasNoInsc.setEnabled(true);
             jBInscribir.setEnabled(true);
             jBanularInsc.setEnabled(true);
         }
@@ -321,7 +318,7 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
                 // Aquí actualizamos la tabla de no inscriptas para pasarlas a las materias inscriptas 
                 DefaultTableModel modelNoInscritas = (DefaultTableModel) jTMaterias.getModel();
                 modelNoInscritas.removeRow(selectMateria);
-                
+
                 DefaultTableModel modelInscritas = (DefaultTableModel) jTMaterias.getModel();
                 modelInscritas.addRow(new Object[]{idMateria, nombreMat, estadoMat});
 
@@ -331,15 +328,13 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
 
         }
 
-
     }//GEN-LAST:event_jBInscribirActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        jCBalumno.setSelectedIndex(-1); 
+        jCBalumno.setSelectedIndex(-1);
         jRBmateriasInsc.setSelected(false);
         jRBmateriasNoInsc.setSelected(false);
-    
+
         DefaultTableModel model = (DefaultTableModel) jTMaterias.getModel();
         model.setRowCount(0); // Limpia todas las filas de la tabla
 
