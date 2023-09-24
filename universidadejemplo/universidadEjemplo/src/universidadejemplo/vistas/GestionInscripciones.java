@@ -4,26 +4,29 @@ import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.util.List;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import universidadejemplo.accesoADatos.AlumnoData;
 import universidadejemplo.accesoADatos.InscripcionData;
 import universidadejemplo.entidades.Alumno;
 import universidadejemplo.entidades.Inscripcion;
 import universidadejemplo.entidades.Materia;
 
+
 public class GestionInscripciones extends javax.swing.JInternalFrame {
 
     private AlumnoData alumnoData = new AlumnoData();
     private InscripcionData inscripcionData = new InscripcionData();
-
     private DefaultTableModel modelo = new DefaultTableModel();
+
+    private boolean materiasInscriptasSelected = false;
+    private boolean materiasNoInscriptasSelected = false;
 
     public GestionInscripciones() {
         initComponents();
         this.setSize(500,500);
-        this.setTitle("Sistema de gestion de INSCRIPCIONES");
+        this.setTitle("Sistema de gestión de INSCRIPCIONES");
         cargarCombo();
         armarCabecera();
         limpiarTabla();
@@ -180,60 +183,41 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
     //Acción del botón MATERIAS NO INSCRIPTAS
     private void jRBmateriasNoInscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBmateriasNoInscActionPerformed
         if (jRBmateriasNoInsc.isSelected()) {
-            jRBmateriasInsc.setEnabled(false); //Desactiva el radio button de materias inscriptas
-            jBInscribir.setEnabled(true); //Activa el boton de Inscribir
-            jBanularInsc.setEnabled(false); //Desactiva el boton de Anular Inscripcion
-
+           if (jRBmateriasInsc.isSelected()){
+               JOptionPane.showMessageDialog(this, "Deseleccione 'Materias Inscriptas' para seleccionar 'Materias no inscriptas'.");
+               jRBmateriasNoInsc.setSelected(false);
+           } else{
+            materiasNoInscriptasSelected = true;
+            materiasInscriptasSelected = false;
+            habilitarBotones(true,false,true);
             limpiarTabla();
-
-            //Obtener el nombre del alumno 
-            Alumno selectedAlumno = (Alumno) jCBalumno.getSelectedItem();
-
-            //Obtener materias no inscriptas
-            List<Materia> materiasNoInscriptas = inscripcionData.obtenerMateriasNoCursadas(selectedAlumno.getIdAlumno());
-//            InscripcionData idata =new InscripcionData();
-//            Alumno alumno=new Alumno();
-
-            //Actualizar tabla:
-            for (Materia materia : materiasNoInscriptas) {
-                modelo.addRow(new Object[]{materia.getIdMateria(), materia.getNombre(), materia.getAnioMateria()});
-            }
-//            jCBalumno.getSelectedItem();
-
-        } else {
-            limpiarTabla();
-            jRBmateriasInsc.setEnabled(true);
-            jBInscribir.setEnabled(true);
-            jBanularInsc.setEnabled(true);
+            cargarMateriasNoInscriptas();
+           }
+        }else{
+            materiasNoInscriptasSelected = false;
+         // Solo habilitar el botón "Nueva consulta" cuando ninguna opción esté seleccionada.    
+            habilitarBotones(true,!jRBmateriasInsc.isSelected(),true);
         }
+        
     }//GEN-LAST:event_jRBmateriasNoInscActionPerformed
 
     //Acción del botón MATERIAS INSCRIPTAS
     private void jRBmateriasInscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBmateriasInscActionPerformed
         if (jRBmateriasInsc.isSelected()) {
-            jRBmateriasNoInsc.setEnabled(false);
-            jBInscribir.setEnabled(false);
-            jBanularInsc.setEnabled(true);
-
+            if(jRBmateriasNoInsc.isSelected()){
+                JOptionPane.showMessageDialog(this, "Deseleccione 'Materias no inscriptas' para seleccionar 'Materias inscriptas'.");
+                jRBmateriasInsc.setSelected(false);
+            }else{
+            materiasInscriptasSelected = true;
+            materiasNoInscriptasSelected = false;
+            habilitarBotones(false,true,true);
             limpiarTabla();
-
-            //Obtener el nombre del alumno 
-            Alumno selectedAlumno = (Alumno) jCBalumno.getSelectedItem();
-
-//Obtener materias inscriptas
-            List<Materia> materiasInscriptas = inscripcionData.obtenerMateriasCursadas(selectedAlumno.getIdAlumno());
-
-            // Actualizar tabla   
-            for (Materia materia : materiasInscriptas) {
-                modelo.addRow(new Object[]{materia.getIdMateria(), materia.getNombre(), materia.getAnioMateria()});
+            cargarMateriasInscriptas();
             }
-        } else {
-            limpiarTabla();
-            jRBmateriasNoInsc.setEnabled(true);
-            jBInscribir.setEnabled(true);
-            jBanularInsc.setEnabled(true);
+        }else{
+            materiasInscriptasSelected = false;
+            habilitarBotones(true,!jRBmateriasNoInsc.isSelected(),true);
         }
-
     }//GEN-LAST:event_jRBmateriasInscActionPerformed
 
     private void jCBalumnoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCBalumnoItemStateChanged
@@ -244,20 +228,10 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
             limpiarTabla();
 
             if (jRBmateriasInsc.isSelected()) {
-                //Obtener materias inscriptas para el alumno
-                List<Materia> materiasInscriptas = inscripcionData.obtenerMateriasCursadas(selectedAlumno.getIdAlumno());
-                //Actualizar tabla
-                for (Materia materia : materiasInscriptas) {
-                    modelo.addRow(new Object[]{materia.getIdMateria(), materia.getNombre(), materia.getAnioMateria()});
-                }
+                cargarMateriasInscriptas();
             } else if (jRBmateriasNoInsc.isSelected()) {
-                //Obener las materias no inscriptas
-                List<Materia> materiasNoInscriptas = inscripcionData.obtenerMateriasNoCursadas(selectedAlumno.getIdAlumno());
-
-                //Actualizar tabla
-                for (Materia materia : materiasNoInscriptas) {
-                    modelo.addRow(new Object[]{materia.getIdMateria(), materia.getNombre(), materia.getAnioMateria()});
-                }
+                cargarMateriasNoInscriptas();
+                
             }
         }
     }//GEN-LAST:event_jCBalumnoItemStateChanged
@@ -268,19 +242,30 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
         if (selectMateria != -1) {
             //Obtener valores de la materia elegida
             int idMateria = (int) jTMaterias.getValueAt(selectMateria, 0);
-
+            String nombreMat = (String) jTMaterias.getValueAt(selectMateria,1);
+            boolean estadoMat=true;
+            
             //Obtener el alumno seleccionado
             Alumno selectedAlumno = (Alumno) jCBalumno.getSelectedItem();
             int idAlumno = selectedAlumno.getIdAlumno();
 
-            int respuesta = JOptionPane.showConfirmDialog(null, "Realmente anular la inscripción?");
+            int respuesta = JOptionPane.showConfirmDialog(null, "¿Realmente anular la inscripción?");
 
             //Metodo
             if (respuesta == 0) {
                 inscripcionData.borrarInscripcionMateriaAlumno(idAlumno, idMateria);
-            }
+                
+            DefaultTableModel model = (DefaultTableModel) jTMaterias.getModel();
+            model.removeRow(selectMateria);
 
+            if (materiasNoInscriptasSelected) {
+                DefaultTableModel modelNoInscriptas = (DefaultTableModel) jTMaterias.getModel();
+                modelNoInscriptas.addRow(new Object[]{idMateria, nombreMat, estadoMat});
+            }
+            }
         }
+    
+    
     }//GEN-LAST:event_jBanularInscActionPerformed
 
     private void jBInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBInscribirActionPerformed
@@ -297,9 +282,9 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
             Alumno selectedAlumno = (Alumno) jCBalumno.getSelectedItem();
             int idAlumno = selectedAlumno.getIdAlumno();
 
-            int respuesta = JOptionPane.showConfirmDialog(null, "Desea inscribir al alumno "
+            int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea inscribir al alumno "
                     + selectedAlumno.getApellido() + ", " + selectedAlumno.getNombre()
-                    + " a la materia: " + nombreMat);
+                    + " a la materia: " + nombreMat+" ?");
 
             //Metodo
             if (respuesta == 0) {
@@ -319,14 +304,14 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
                 inscripcionData.guardarInscripcion(i);
 
                 // Aquí actualizamos la tabla de no inscriptas para pasarlas a las materias inscriptas 
-                DefaultTableModel modelNoInscritas = (DefaultTableModel) jTMaterias.getModel();
-                modelNoInscritas.removeRow(selectMateria);
+                DefaultTableModel modelNoInscriptas = (DefaultTableModel) jTMaterias.getModel();
+                modelNoInscriptas.removeRow(selectMateria);
                 
-                DefaultTableModel modelInscritas = (DefaultTableModel) jTMaterias.getModel();
-                modelInscritas.addRow(new Object[]{idMateria, nombreMat, estadoMat});
+                DefaultTableModel modelInscriptas = (DefaultTableModel) jTMaterias.getModel();
+                modelInscriptas.addRow(new Object[]{idMateria, nombreMat, estadoMat});
 
             } else if (respuesta == 1) {
-                JOptionPane.showMessageDialog(null, "Se canceló la Inscripción");
+                JOptionPane.showMessageDialog(null, "Se canceló la inscripción.");
             }
 
         }
@@ -339,10 +324,7 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
         jCBalumno.setSelectedIndex(-1); 
         jRBmateriasInsc.setSelected(false);
         jRBmateriasNoInsc.setSelected(false);
-    
-        DefaultTableModel model = (DefaultTableModel) jTMaterias.getModel();
-        model.setRowCount(0); // Limpia todas las filas de la tabla
-
+        limpiarTabla();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
@@ -382,11 +364,32 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
     }
 
     private void limpiarTabla() {
-        for (int f = modelo.getRowCount() - 1; f >= 0; f--) {
-            modelo.removeRow(f);
+        modelo.setRowCount(0);
+        }
+    
+    private void habilitarBotones(boolean inscribir, boolean anular,boolean nuevaConsulta){
+       jBInscribir.setEnabled(inscribir);
+       jBanularInsc.setEnabled(anular);
+       jButton1.setEnabled(nuevaConsulta);
+    }
+    
+    private void cargarMateriasNoInscriptas(){
+        Alumno selectedAlumno = (Alumno) jCBalumno.getSelectedItem();
+        List<Materia> materiasNoInscriptas = inscripcionData.obtenerMateriasNoCursadas(selectedAlumno.getIdAlumno());
+        for (Materia materia : materiasNoInscriptas){
+            modelo.addRow(new Object[]{materia.getIdMateria(),materia.getNombre(), materia.getAnioMateria()});
         }
     }
-
+    
+    private void cargarMateriasInscriptas(){
+      Alumno selectedAlumno = (Alumno) jCBalumno.getSelectedItem();
+      List<Materia> materiasInscriptas = inscripcionData.obtenerMateriasCursadas(selectedAlumno.getIdAlumno());
+      for (Materia materia : materiasInscriptas){
+          modelo.addRow(new Object[]{materia.getIdMateria(), materia.getNombre(), materia.getAnioMateria()});
+      }
+    }
+    
+    
     //Personaliza como se muestra cada elemento en el JcomboBox como se hace con las tablas.
     private class AlumnoComboBox extends DefaultListCellRenderer {
 
@@ -401,3 +404,4 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
         }
     }
 }
+
