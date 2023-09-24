@@ -20,6 +20,8 @@ public class InscripcionData {
 
     public InscripcionData() {
         con = Conexion.getConexion();
+        matData= new MateriaData();
+        aluData = new AlumnoData();
     }
 
     //GUARDAR INSCRIPCION (Inscripcion(Materia materia, Alumno alumno, nota)
@@ -34,14 +36,12 @@ public class InscripcionData {
 
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
-            System.out.println("RS "+rs);
             
             if (rs.next()) {
                 insc.setIdInscripcion(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Inscripción Exitosa");
             }
-
-            //ps.close();
+            ps.close();
         } catch (SQLException ex) {
             System.out.println(ex);
             JOptionPane.showMessageDialog(null, "Error al guardar la Inscripción");
@@ -61,6 +61,7 @@ public class InscripcionData {
             int borrar = ps.executeUpdate();
             if (borrar == 1) {
                 JOptionPane.showMessageDialog(null, "Inscripción Borrada");
+            
             }
             ps.close();
 
@@ -121,9 +122,11 @@ public class InscripcionData {
     public List<Inscripcion> obtenerInscripcionesPorAlumno(int id) {
         String sql = "SELECT alumno.nombre, alumno.apellido, alumno.dni, "
                 + "materia.nombre, materia.anio "
-                + "FROM `inscripcion` JOIN alumno ON inscripcion.idInscripto= ? "
-                + "JOIN materia ON inscripcion.idMateria=materia.idMateria";
-
+                + "FROM inscripcion"
+                + "JOIN alumno ON inscripcion.idAlumno= alumno.idAlumno "
+                + "JOIN materia ON inscripcion.idMateria=materia.idMateria"
+                + "WHERE alumno.idAlumno=?";
+        
         ArrayList<Inscripcion> inscripciones = new ArrayList<>();
         Alumno alm = new Alumno();
         Materia mat = new Materia();
