@@ -22,23 +22,23 @@ import universidadejemplo.entidades.Inscripcion;
 import universidadejemplo.entidades.Materia;
 
 public class GestionNotas extends javax.swing.JInternalFrame {
-
+    
     private AlumnoData alumnoData = new AlumnoData();
     private InscripcionData inscripcionData = new InscripcionData();
     private DefaultTableModel modelo = new DefaultTableModel();
     private JFrame frame;
-
+    
     public GestionNotas() {
         initComponents();
         this.setSize(500, 500);
         this.setTitle("Sistema de gestion de NOTAS");
-
+        
         cargarComboAlumno();
         armarCabecera();
         limpiarTabla();
         this.frame = frame;
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -82,6 +82,11 @@ public class GestionNotas extends javax.swing.JInternalFrame {
         });
 
         jBNuevaConsulta.setText("Nueva consulta");
+        jBNuevaConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBNuevaConsultaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -125,7 +130,7 @@ public class GestionNotas extends javax.swing.JInternalFrame {
             //Obtiene el alumno del JComboBox
             Alumno selectedAlumno = (Alumno) jcbListaAlumnos.getSelectedItem();
             cargarMateriasInscriptas();
-
+            
             jBActualizarNota.setEnabled(true);
             jBNuevaConsulta.setEnabled(true);
         }
@@ -133,20 +138,25 @@ public class GestionNotas extends javax.swing.JInternalFrame {
 
     private void jBActualizarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBActualizarNotaActionPerformed
         int fila = jtListaMateria.getSelectedRow();
-
+        
         if (fila == -1) {
             JOptionPane.showConfirmDialog(GestionNotas.this, "Selecciona una materia");
             return;
         }
         int idMateria = (int) modelo.getValueAt(fila, 0);
         Alumno selectedAlumno = (Alumno) jcbListaAlumnos.getSelectedItem();
-
+        
         ActualizarNotaDialog dialog = new ActualizarNotaDialog(frame, idMateria, selectedAlumno);
         dialog.pack();
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
     }//GEN-LAST:event_jBActualizarNotaActionPerformed
+
+    private void jBNuevaConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevaConsultaActionPerformed
+        limpiarTabla();
+        jcbListaAlumnos.setSelectedIndex(0);
+    }//GEN-LAST:event_jBNuevaConsultaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -166,57 +176,55 @@ public class GestionNotas extends javax.swing.JInternalFrame {
         }
         jcbListaAlumnos.setRenderer(new AlumnoComboBox());
         jcbListaAlumnos.setSelectedIndex(-1);
-
+        
     }
-
+    
     private void armarCabecera() {
         modelo.addColumn("CÓDIGO");
         modelo.addColumn("NOMBRE DE MATERIA");
         modelo.addColumn("NOTA");
-
+        
         jtListaMateria.setModel(modelo);
     }
-
+    
     private void limpiarTabla() {
         modelo.setRowCount(0);
     }
-
+    
     private void actualizarTabla() {
         limpiarTabla();
         cargarMateriasInscriptas();
     }
-
+    
     private void cargarMateriasInscriptas() {
         limpiarTabla();
         Alumno selectedAlumno = (Alumno) jcbListaAlumnos.getSelectedItem();
         double nota = 0;
-        int idMateria=0;
+        int idMateria = 0;
         
         List<Materia> matInscriptas = inscripcionData.obtenerMateriasCursadas(selectedAlumno.getIdAlumno());
-
+        
         List<Inscripcion> inscrip = inscripcionData.obtenerInscripcion();
-
-        for (Inscripcion inscripcion : inscrip) {
-            //Hacemos el if para poder afectar solo 1 materia y no todas las inscripciones de un alumno, PERO NO FUNCIONA. Se actualizan todas las notas de las materias inscriptas
-            if (inscripcion.getAlumno().getDni() == selectedAlumno.getDni()
-                    && inscripcion.getMateria().getIdMateria() == idMateria ) {
-
-                nota = inscripcion.getNota(); //Se guarda en la variable la nota que tiene cargada la BD a traves del metodo obtenerInscripcion()
-            }
-        }
-
+        
         for (Materia mat : matInscriptas) {
             idMateria = mat.getIdMateria();
             String nombreMat = mat.getNombre();
+            for (Inscripcion inscripcion : inscrip) {
+                if (inscripcion.getAlumno().getDni() == selectedAlumno.getDni()
+                        && inscripcion.getMateria().getNombre().equals(nombreMat)) {
+                    
+                    nota = inscripcion.getNota(); //Se guarda en la variable la nota que tiene cargada la BD a traves del metodo obtenerInscripcion()
+                }
+            }
 
             // Agrega la fila a la tabla con el ID de la inscripción, nombre de la materia y nota
             modelo.addRow(new Object[]{idMateria, nombreMat, nota});
         }
-
+        
     }
-
+    
     private class AlumnoComboBox extends DefaultListCellRenderer {
-
+        
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             if (value instanceof Alumno) {
@@ -227,16 +235,16 @@ public class GestionNotas extends javax.swing.JInternalFrame {
             return this;
         }
     }
-
+    
     private class ActualizarNotaDialog extends JDialog {
-
+        
         private JButton guardar;
         private JButton cancelar;
         private JTextField JTnuevaNota;
-
+        
         public ActualizarNotaDialog(JFrame parent, int idMateria, Alumno alumno) {
             super(parent, "Actualizar nota", true);
-
+            
             guardar = new JButton("Guardar");
             guardar.addActionListener(new ActionListener() {
                 @Override
@@ -264,7 +272,7 @@ public class GestionNotas extends javax.swing.JInternalFrame {
                     dispose();
                 }
             });
-
+            
             JTnuevaNota = new JTextField(10);
 
             // Agregar componentes a la ventana emergente
@@ -273,9 +281,9 @@ public class GestionNotas extends javax.swing.JInternalFrame {
             panel.add(JTnuevaNota);
             panel.add(guardar);
             panel.add(cancelar);
-
+            
             add(panel);
-
+            
         }
     }
 }
