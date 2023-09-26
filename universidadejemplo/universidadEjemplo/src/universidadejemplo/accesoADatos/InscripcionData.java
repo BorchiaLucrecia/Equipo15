@@ -122,9 +122,9 @@ public class InscripcionData {
     public List<Inscripcion> obtenerInscripcionesPorAlumno(int id) {
         String sql = "SELECT alumno.nombre, alumno.apellido, alumno.dni, "
                 + "materia.nombre, materia.anio "
-                + "FROM inscripcion"
+                + "FROM inscripcion "
                 + "JOIN alumno ON inscripcion.idAlumno= alumno.idAlumno "
-                + "JOIN materia ON inscripcion.idMateria=materia.idMateria"
+                + "JOIN materia ON inscripcion.idMateria=materia.idMateria "
                 + "WHERE alumno.idAlumno=?";
         
         ArrayList<Inscripcion> inscripciones = new ArrayList<>();

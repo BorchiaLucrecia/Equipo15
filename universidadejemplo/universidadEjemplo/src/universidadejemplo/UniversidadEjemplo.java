@@ -1,8 +1,5 @@
 package universidadejemplo;
 
-
-
-
 public class UniversidadEjemplo {
 
 
