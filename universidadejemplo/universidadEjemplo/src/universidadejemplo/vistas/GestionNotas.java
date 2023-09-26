@@ -213,11 +213,12 @@ public class GestionNotas extends javax.swing.JInternalFrame {
                 if (inscripcion.getAlumno().getDni() == selectedAlumno.getDni()
                         && inscripcion.getMateria().getNombre().equals(nombreMat)) {
                     
-                    nota = inscripcion.getNota(); //Se guarda en la variable la nota que tiene cargada la BD a traves del metodo obtenerInscripcion()
+  //Se guarda en la variable la nota que tiene cargada la BD a traves del metodo obtenerInscripcion()
+                nota = inscripcion.getNota();
                 }
             }
 
-            // Agrega la fila a la tabla con el ID de la inscripción, nombre de la materia y nota
+  // Agrega la fila a la tabla con el ID de la inscripción, nombre de la materia y nota
             modelo.addRow(new Object[]{idMateria, nombreMat, nota});
         }
         
@@ -245,6 +246,7 @@ public class GestionNotas extends javax.swing.JInternalFrame {
         public ActualizarNotaDialog(JFrame parent, int idMateria, Alumno alumno) {
             super(parent, "Actualizar nota", true);
             
+            //botón guardar
             guardar = new JButton("Guardar");
             guardar.addActionListener(new ActionListener() {
                 @Override
@@ -275,7 +277,7 @@ public class GestionNotas extends javax.swing.JInternalFrame {
             
             JTnuevaNota = new JTextField(10);
 
-            // Agregar componentes a la ventana emergente
+            //Componentes de la ventana emergente
             JPanel panel = new JPanel();
             panel.add(new JLabel("Nueva nota:"));
             panel.add(JTnuevaNota);

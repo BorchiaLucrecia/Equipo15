@@ -99,6 +99,7 @@ public class AlumnoData {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             int elimAlumno = ps.executeUpdate();
+            
             if (elimAlumno == 1) {
                 JOptionPane.showMessageDialog(null, "Alumno eliminado");
             }

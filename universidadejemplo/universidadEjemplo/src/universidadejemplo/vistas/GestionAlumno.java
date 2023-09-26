@@ -5,6 +5,8 @@
  */
 package universidadejemplo.vistas;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import javax.swing.JOptionPane;
@@ -16,9 +18,9 @@ import universidadejemplo.entidades.Alumno;
  * @author borch
  */
 public class GestionAlumno extends javax.swing.JInternalFrame {
-
-   //  private Alumno alum = new Alumno();
-   
+      private AlumnoData alumnoData = new AlumnoData();
+      private Alumno alumno=null;
+      private int idAlumno;
     /**
      * Creates new form cargarAlumno
      */
@@ -26,7 +28,10 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
         initComponents();
         this.setSize(500,500);
         this.setTitle("Sistema de gestión ALUMNOS");
-             
+        limpiarCampos();
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        jDateChooser1.setDateFormatString("dd/MM/yyyy");
     }
    
     /**
@@ -41,8 +46,6 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jRBestado = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         jTFDni = new javax.swing.JTextField();
         jTFapellido = new javax.swing.JTextField();
@@ -51,7 +54,6 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
         jBbuscarAlum = new javax.swing.JButton();
         jBguardarAlum = new javax.swing.JButton();
         jBeliminarAlum = new javax.swing.JButton();
-        jLidAlumno = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
         setClosable(true);
@@ -59,16 +61,13 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(360, 380));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel1.setText("Ingresar documento del alumno:");
+        jLabel1.setText("Documento:");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Apellido:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("Nombre:");
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel4.setText("Estado:");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel5.setText("Fecha de nacimiento:");
@@ -94,9 +93,6 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
             }
         });
 
-        jLidAlumno.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLidAlumno.setText("ID Alumno : ");
-
         jButton1.setText("Nueva consulta");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,73 +104,70 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jBbuscarAlum))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                        .addComponent(jBeliminarAlum)
+                        .addGap(44, 44, 44)
+                        .addComponent(jBguardarAlum))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTFapellido)
+                            .addComponent(jTFnombre)
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))))
+                .addGap(63, 63, 63))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
+                        .addGap(58, 58, 58)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jBeliminarAlum)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jBguardarAlum))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLidAlumno)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(108, 108, 108)
-                                        .addComponent(jButton1)))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(27, 27, 27)
+                                .addComponent(jLabel1))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(193, 193, 193)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTFDni, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBbuscarAlum)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTFapellido, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTFnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jRBestado)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(80, Short.MAX_VALUE))
+                        .addGap(144, 144, 144)
+                        .addComponent(jTFDni, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(65, 65, 65)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jTFDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9)
-                .addComponent(jLidAlumno)
-                .addGap(17, 17, 17)
+                .addGap(12, 12, 12)
                 .addComponent(jBbuscarAlum)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRBestado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(19, 19, 19)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTFapellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTFnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFapellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBeliminarAlum)
                     .addComponent(jBguardarAlum)
-                    .addComponent(jBeliminarAlum))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addGap(28, 28, 28))
+                    .addComponent(jButton1))
+                .addGap(46, 46, 46))
         );
 
         pack();
@@ -201,10 +194,10 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "El dni debe ser un numero entero");
             return;
         }
-     // Debe devolver los datos en los TextField para poder 
-     // eliminarlos, ver los datos.
+        
          Alumno estudiante = new AlumnoData().buscarAlumnoPorDni(dni);
          if (estudiante!=null){
+          alumno = estudiante;
           jTFapellido.setText(estudiante.getApellido());
           jTFnombre.setText(estudiante.getNombre());
          
@@ -214,12 +207,6 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
           
           jDateChooser1.setDate(fechaUtil);
         
-      // Configurar estado en rbutton    
-          jRBestado.setSelected(estudiante.isEstado());
-          
-      // Configurar ID en el campo Jlabel  
-          jLidAlumno.setText("ID Alumno "+ estudiante.getIdAlumno());
-     
      // Habilitar el botón "Eliminar" una vez que se encuentra un alumno
           jBeliminarAlum.setEnabled(true);     
         }else{
@@ -229,67 +216,105 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
 
     private void jBguardarAlumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBguardarAlumActionPerformed
         // TODO add your handling code here:
+        
     //Obtengo los datos del formulario:
-       int dni = Integer.parseInt(jTFDni.getText());
-       String apellido = jTFapellido.getText();
-       String nombre = jTFnombre.getText();
-       LocalDate fechaNacimiento = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-       boolean estado = jRBestado.isSelected();
-    
-       //obj alumno
-       Alumno alumno = new Alumno(dni, apellido, nombre, fechaNacimiento, estado);
-       //Invoco al metodo para guardar el alumno en la BD. 
-       AlumnoData alum = new AlumnoData();
-       alum.guardarAlumno(alumno);
+     try{  
+        int dni = Integer.parseInt(jTFDni.getText());
+        String apellido = jTFapellido.getText();
+        String nombre = jTFnombre.getText();
+        
+        if (nombre.isEmpty()|| apellido.isEmpty()){
+            JOptionPane.showMessageDialog(this,"No pueden haber campos vacios");
+            return;
+        }
+        
+        LocalDate fechaNacimiento = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        
+        boolean estado = true;
+        
+        if (alumno == null){
+            int respuesta =  JOptionPane.showConfirmDialog(this, "¿Desea guardar un nuevo alumno?",
+                                                          "Confirmar Guardar", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION) {
+            Alumno alumno = new Alumno(dni, apellido, nombre, fechaNacimiento,estado);
+            alumnoData.guardarAlumno(alumno);
+            JOptionPane.showMessageDialog(this, "Alumno guardado exitosamente");
+            }
+        }else{
+             int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar los datos del alumno?\n\n" +
+                                                          "Datos anteriores:\n" +
+                                                          "DNI: " + alumno.getDni() + "\n" +
+                                                          "Apellido: " + alumno.getApellido() + "\n" +
+                                                          "Nombre: " + alumno.getNombre() + "\n" +
+                                                          "Fecha de Nacimiento: " + alumno.getFechaNacimiento() + "\n\n" +
+                                                          "Nuevos datos:\n" +
+                                                          "DNI: " + dni + "\n" +
+                                                          "Apellido: " + apellido + "\n" +
+                                                          "Nombre: " + nombre + "\n" +
+                                                          "Fecha de Nacimiento: " + fechaNacimiento,
+                                                          "Confirmar Modificación", JOptionPane.YES_NO_OPTION);
+            if(respuesta==JOptionPane.YES_OPTION){
+                alumno.setDni(dni);
+                alumno.setApellido(apellido);
+                alumno.setNombre(nombre);
+                alumno.setFechaNacimiento(fechaNacimiento);
+                alumnoData.modificarAlumno(alumno);
+                JOptionPane.showMessageDialog(this, "Alumno modificado exitosamente");
+            }
+        }
+     }catch(NumberFormatException nfe){
+         JOptionPane.showMessageDialog(this, "Debe ingresar un DNI valido");
+     }catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Ocurrió un error al procesar la solicitud: " + e.getMessage());
+    }
        
        // Limpio los campos de texto:
-       jTFDni.setText("");
-       jTFapellido.setText("");
-       jTFnombre.setText("");
-       jDateChooser1.setDate(null);
-       jRBestado.setSelected(false);
-        
-        
+       limpiarCampos();
         
     }//GEN-LAST:event_jBguardarAlumActionPerformed
 
     
     private void jBeliminarAlumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBeliminarAlumActionPerformed
         // TODO add your handling code here:
-      String idAlumnoText = jLidAlumno.getText().replace("ID Alumno", "").trim();
-      
-      if (idAlumnoText.isEmpty()){
-              JOptionPane.showMessageDialog(null, "El ID del alumno no es válido.");
-        return; 
-      }
-      
-      int idAlumno = Integer.parseInt(idAlumnoText);
-      
-      AlumnoData alumnoData = new AlumnoData();
-     //Se muestra un diálogo de confirmación antes de eliminar Alumno
-     int respuesta= JOptionPane.showConfirmDialog(null,"Realmente desea eliminar al alumno?");
-     if(respuesta==0){
-         alumnoData.eliminarAlumno(idAlumno);
-     }
-         jTFDni.setText("");
-         jTFapellido.setText("");
-         jTFnombre.setText("");
-         jDateChooser1.setDate(null);
-         jRBestado.setSelected(false);
-         
-      //Desactiva el boton eliminar. 
-         jBeliminarAlum.setEnabled(false);
+      // Verificar si hay un alumno cargado para eliminar
+    if (alumno != null) {
+        // Preguntar al usuario si está seguro de eliminar al alumno
+        String mensaje = "¿Seguro que desea eliminar al alumno?\n\n" +
+                "DNI: " + alumno.getDni() + "\n" +
+                "Apellido: " + alumno.getApellido() + "\n" +
+                "Nombre: " + alumno.getNombre() + "\n" +
+                "Fecha de nacimiento: " + jDateChooser1.getDate();
+
+        int respuesta = JOptionPane.showOptionDialog(null, mensaje, "Confirmar Eliminar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Aceptar", "Cancelar"}, "Aceptar");
+
+        if (respuesta == JOptionPane.YES_OPTION) {
+            // Eliminar el alumno de la base de datos
+            AlumnoData alumnoData = new AlumnoData();
+            alumnoData.eliminarAlumno(alumno.getIdAlumno());
+
+            // Mostrar un mensaje de confirmación
+            JOptionPane.showMessageDialog(null, "El alumno ha sido eliminado de la base de datos");
+
+            // Limpiar campos después de eliminar
+            jTFDni.setText("");
+            jTFapellido.setText("");
+            jTFnombre.setText("");
+            jDateChooser1.setDate(null);
+            alumno = null;
+            jBeliminarAlum.setEnabled(false); // Desactivar el botón de eliminar
+        }
+    } else {
+        // Si no hay un alumno cargado, mostrar un mensaje de advertencia
+        JOptionPane.showMessageDialog(null, "No hay ningún alumno cargado para eliminar");
+    }
     
     }//GEN-LAST:event_jBeliminarAlumActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-         jLidAlumno.setText("");
-         jTFDni.setText("");
-         jTFnombre.setText("");
-         jTFapellido.setText("");
-         jRBestado.setSelected(false); 
-         jDateChooser1.setDate(null);
+        
+         limpiarCampos();
+         alumno = null;
     }//GEN-LAST:event_jButton1ActionPerformed
 
    
@@ -302,12 +327,22 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLidAlumno;
-    private javax.swing.JRadioButton jRBestado;
     private javax.swing.JTextField jTFDni;
     private javax.swing.JTextField jTFapellido;
     private javax.swing.JTextField jTFnombre;
     // End of variables declaration//GEN-END:variables
+
+private String formatDate(Date date) {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    return sdf.format(date);
+}
+
+private void limpiarCampos(){
+    jTFDni.setText("");
+    jTFnombre.setText("");
+    jTFapellido.setText("");
+    jDateChooser1.setDate(null);
+}
+
 }
