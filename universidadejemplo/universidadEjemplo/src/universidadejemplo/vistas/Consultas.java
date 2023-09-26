@@ -14,7 +14,9 @@ import universidadejemplo.accesoADatos.InscripcionData;
 import universidadejemplo.entidades.Alumno;
 import universidadejemplo.entidades.Materia;
 import javax.swing.table.DefaultTableModel;
+import universidadejemplo.accesoADatos.AlumnoData;
 import universidadejemplo.accesoADatos.MateriaData;
+import universidadejemplo.entidades.Inscripcion;
 /**
  *
  * @author borch
@@ -32,6 +34,7 @@ private MateriaData materiaData= new MateriaData();
         cargarCombo();
         armarCabecera();
         limpiarTabla();
+//        CargarAlumno();
     }
 
     /**
@@ -116,17 +119,41 @@ private MateriaData materiaData= new MateriaData();
     private void jcbListaMateriaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbListaMateriaItemStateChanged
      if(evt.getStateChange()==ItemEvent.SELECTED){
      //Obtenes Materia
-     Materia selectedMateria=(Materia)jcbListaMateria.getSelectedItem();
-     limpiarTabla();
-         InscripcionData inscripciondata =new InscripcionData();
-         List<Alumno> obtenerAlumnosXMateria = inscripciondata.obtenerAlumnosXMateria(selectedMateria.getIdMateria());
-         for(Alumno alumno:obtenerAlumnosXMateria ) {
-             modelo.addRow(new Object[]{alumno.getIdAlumno(), alumno.getDni(), alumno.getApellido(), alumno.getNombre()});
-         }
-        
+     //Materia selectedMateria=(Materia)jcbListaMateria.getSelectedItem();
+//     limpiarTabla();
+//         InscripcionData inscripciondata =new InscripcionData();
+//         Alumno alumno=new Alumno();
+//           List <Inscripcion> obtenerInscripcionesPorAlumno= inscripciondata.obtenerInscripcionesPorAlumno(selectedMateria.getIdMateria());
+           
+//         List<Alumno> obtenerAlumnosXMateria = inscripciondata.obtenerAlumnosXMateria(selectedMateria.getIdMateria());
+//         for(Alumno alumno:obtenerAlumnosXMateria ) {
+//           modelo.addRow(new Object[]{alumno.getIdAlumno(), alumno.getDni(), alumno.getApellido(), alumno.getNombre()});
+//        }
+
+  //Muestra los alumnos pero los multiplica al seleccionar otra materia
+        AlumnoData alumnoData =new AlumnoData();
+        //Obtenes Materia
+        Materia selectedMateria = (Materia) jcbListaMateria.getSelectedItem();
+        List<Alumno>listarAlumno = alumnoData.listarAlumno();
+            for (Alumno alumno:listarAlumno){
+               modelo.addRow(new Object[]{alumno.getIdAlumno(), alumno.getDni(), alumno.getApellido(), alumno.getNombre()});
+           }
+            
      }
-     
+    //Esta comentado pero al ejecutarlo si muentra los alumnos pero no los estan incriptos por materia
      }
+//    private void CargarAlumno(){
+////      Inscripcion inscripcion = new Inscripcion();
+//        limpiarTabla();
+//        AlumnoData alumnoData =new AlumnoData();
+//        Materia selectedMateria = (Materia) jcbListaMateria.getSelectedItem();
+//        List<Alumno>listarAlumno = alumnoData.listarAlumno();
+//            for (Alumno alumno:listarAlumno){
+//               modelo.addRow(new Object[]{alumno.getIdAlumno(), alumno.getDni(), alumno.getApellido(), alumno.getNombre()});
+//           }
+//        
+//     }
+    
       private void cargarCombo(){
  // Obtener la lista de alumnos desde AlumnoData
         List<Materia> materias = materiaData.listarMaterias();       
