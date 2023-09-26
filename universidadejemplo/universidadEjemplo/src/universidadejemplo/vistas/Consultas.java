@@ -15,19 +15,22 @@ import universidadejemplo.entidades.Alumno;
 import universidadejemplo.entidades.Materia;
 import javax.swing.table.DefaultTableModel;
 import universidadejemplo.accesoADatos.MateriaData;
+
 /**
  *
  * @author borch
  */
 public class Consultas extends javax.swing.JInternalFrame {
-private DefaultTableModel modelo= new DefaultTableModel();
-private MateriaData materiaData= new MateriaData();
+
+    private DefaultTableModel modelo = new DefaultTableModel();
+    private MateriaData materiaData = new MateriaData();
+
     /**
      * Creates new form Consultas
      */
     public Consultas() {
         initComponents();
-        this.setSize(500,500);
+        this.setSize(500, 500);
         this.setTitle("Sistema de CONSULTAS");
         cargarCombo();
         armarCabecera();
@@ -114,53 +117,56 @@ private MateriaData materiaData= new MateriaData();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jcbListaMateriaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbListaMateriaItemStateChanged
-     if(evt.getStateChange()==ItemEvent.SELECTED){
-     //Obtenes Materia
-     Materia selectedMateria=(Materia)jcbListaMateria.getSelectedItem();
-     limpiarTabla();
-         InscripcionData inscripciondata =new InscripcionData();
-         List<Alumno> obtenerAlumnosXMateria = inscripciondata.obtenerAlumnosXMateria(selectedMateria.getIdMateria());
-         for(Alumno alumno:obtenerAlumnosXMateria ) {
-             modelo.addRow(new Object[]{alumno.getIdAlumno(), alumno.getDni(), alumno.getApellido(), alumno.getNombre()});
-         }
-        
-     }
-     
-     }
-      private void cargarCombo(){
- // Obtener la lista de alumnos desde AlumnoData
-        List<Materia> materias = materiaData.listarMaterias();       
-     for (Materia materia : materias) {
-         jcbListaMateria.addItem(materia);
-     }  
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            //Obtenes Materia
+            Materia selectedMateria = (Materia) jcbListaMateria.getSelectedItem();
+            limpiarTabla();
+            InscripcionData inscripciondata = new InscripcionData();
+            List<Alumno> obtenerAlumnosXMateria = inscripciondata.obtenerAlumnosXMateria(selectedMateria.getIdMateria());
+            for (Alumno alumno : obtenerAlumnosXMateria) {
+                modelo.addRow(new Object[]{alumno.getIdAlumno(), alumno.getDni(), alumno.getApellido(), alumno.getNombre()});
+            }
+            //COMENTARIO PARA HACER COMMIT
+        }
+
+    }
+
+    private void cargarCombo() {
+        // Obtener la lista de alumnos desde AlumnoData
+        List<Materia> materias = materiaData.listarMaterias();
+        for (Materia materia : materias) {
+            jcbListaMateria.addItem(materia);
+        }
         jcbListaMateria.setRenderer(new Consultas.MateriaComboBox());
         jcbListaMateria.setSelectedIndex(-1);
-        
+
     }
-     private void armarCabecera(){
-         modelo.addColumn("ID");
-         modelo.addColumn("DNI");
-         modelo.addColumn("APELLIDO");
-         modelo.addColumn("NOMBRE");
-         jtListaAlumnos.setModel(modelo);
-     }
-     
-     private void limpiarTabla() {
+
+    private void armarCabecera() {
+        modelo.addColumn("ID");
+        modelo.addColumn("DNI");
+        modelo.addColumn("APELLIDO");
+        modelo.addColumn("NOMBRE");
+        jtListaAlumnos.setModel(modelo);
+    }
+
+    private void limpiarTabla() {
         for (int f = modelo.getRowCount() - 1; f >= 0; f--) {
-                modelo.removeRow(f);
-        
+            modelo.removeRow(f);
+
         }
     }//GEN-LAST:event_jcbListaMateriaItemStateChanged
-    private class MateriaComboBox extends DefaultListCellRenderer{
-     @Override  
-     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus){
-         if (value instanceof Materia){
-             Materia materia =(Materia) value;
-          //Personaliza el jcombobox
-            setText(materia.getIdMateria()+"-"+materia.getNombre()+"-"+materia.getAnioMateria());
-         }
-         return this;
-     }
+    private class MateriaComboBox extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            if (value instanceof Materia) {
+                Materia materia = (Materia) value;
+                //Personaliza el jcombobox
+                setText(materia.getIdMateria() + "-" + materia.getNombre() + "-" + materia.getAnioMateria());
+            }
+            return this;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
