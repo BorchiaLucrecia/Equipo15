@@ -219,7 +219,12 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
         
     //Obtengo los datos del formulario:
      try{  
-        int dni = Integer.parseInt(jTFDni.getText());
+         String dniText = jTFDni.getText();
+        if ( dniText.length() !=8){
+            JOptionPane.showConfirmDialog(this, "El DNI debe tener ocho números, sin puntos ni espacios.");
+            return;
+        }
+        int dni = Integer.parseInt(dniText);
         String apellido = jTFapellido.getText();
         String nombre = jTFnombre.getText();
         
