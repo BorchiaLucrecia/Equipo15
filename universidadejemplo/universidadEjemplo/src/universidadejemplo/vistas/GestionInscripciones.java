@@ -53,7 +53,7 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
         setTitle("Formulario de inscripciones");
         setPreferredSize(new java.awt.Dimension(340, 400));
 
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Seleccionar alumno:");
 
         jCBalumno.addItemListener(new java.awt.event.ItemListener() {
@@ -147,7 +147,7 @@ public class GestionInscripciones extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(jRBmateriasInsc)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                         .addComponent(jRBmateriasNoInsc)
                         .addGap(47, 47, 47))
                     .addComponent(jCBalumno, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
