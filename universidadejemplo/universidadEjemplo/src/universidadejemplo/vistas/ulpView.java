@@ -1,6 +1,9 @@
 
 package universidadejemplo.vistas;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class ulpView extends javax.swing.JFrame {
@@ -18,120 +21,125 @@ public class ulpView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPane = new javax.swing.JDesktopPane();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMformAlumno = new javax.swing.JMenu();
-        jMformularioAlum = new javax.swing.JMenuItem();
-        jMmateria = new javax.swing.JMenu();
-        jMformularioMat = new javax.swing.JMenuItem();
-        jMadministración = new javax.swing.JMenu();
-        JMinscripciones = new javax.swing.JMenuItem();
-        jMnotas = new javax.swing.JMenuItem();
-        jMconsultas = new javax.swing.JMenu();
-        jMalumxMateria = new javax.swing.JMenuItem();
-        jMsalir = new javax.swing.JMenu();
+        ImageIcon icono=new ImageIcon(getClass().getResource("/universidadejemplo/recursos/imagen-principal.png"));
+        Image miImagen=icono.getImage();
+        jDesktopPane = new javax.swing.JDesktopPane(){
+            public void paintComponent (Graphics g){
+                g.drawImage(miImagen,0,0,getWidth(),getHeight(),this);
+            }};
+            jMenuBar1 = new javax.swing.JMenuBar();
+            jMformAlumno = new javax.swing.JMenu();
+            jMformularioAlum = new javax.swing.JMenuItem();
+            jMmateria = new javax.swing.JMenu();
+            jMformularioMat = new javax.swing.JMenuItem();
+            jMadministración = new javax.swing.JMenu();
+            JMinscripciones = new javax.swing.JMenuItem();
+            jMnotas = new javax.swing.JMenuItem();
+            jMconsultas = new javax.swing.JMenu();
+            jMalumxMateria = new javax.swing.JMenuItem();
+            jMsalir = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+            setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jDesktopPane.setBackground(new java.awt.Color(204, 204, 204));
-        jDesktopPane.setPreferredSize(new java.awt.Dimension(700, 700));
+            jDesktopPane.setBackground(new java.awt.Color(204, 204, 204));
+            jDesktopPane.setPreferredSize(new java.awt.Dimension(700, 700));
 
-        javax.swing.GroupLayout jDesktopPaneLayout = new javax.swing.GroupLayout(jDesktopPane);
-        jDesktopPane.setLayout(jDesktopPaneLayout);
-        jDesktopPaneLayout.setHorizontalGroup(
-            jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
-        );
-        jDesktopPaneLayout.setVerticalGroup(
-            jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
-        );
+            javax.swing.GroupLayout jDesktopPaneLayout = new javax.swing.GroupLayout(jDesktopPane);
+            jDesktopPane.setLayout(jDesktopPaneLayout);
+            jDesktopPaneLayout.setHorizontalGroup(
+                jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 700, Short.MAX_VALUE)
+            );
+            jDesktopPaneLayout.setVerticalGroup(
+                jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 0, Short.MAX_VALUE)
+            );
 
-        jMformAlumno.setText("Alumno");
+            jMformAlumno.setText("Alumno");
 
-        jMformularioAlum.setText("Formulario Alumno");
-        jMformularioAlum.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMformularioAlumActionPerformed(evt);
-            }
-        });
-        jMformAlumno.add(jMformularioAlum);
+            jMformularioAlum.setText("Formulario Alumno");
+            jMformularioAlum.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jMformularioAlumActionPerformed(evt);
+                }
+            });
+            jMformAlumno.add(jMformularioAlum);
 
-        jMenuBar1.add(jMformAlumno);
+            jMenuBar1.add(jMformAlumno);
 
-        jMmateria.setText("Materia");
+            jMmateria.setText("Materia");
 
-        jMformularioMat.setText("Formulario Materia");
-        jMformularioMat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMformularioMatActionPerformed(evt);
-            }
-        });
-        jMmateria.add(jMformularioMat);
+            jMformularioMat.setText("Formulario Materia");
+            jMformularioMat.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jMformularioMatActionPerformed(evt);
+                }
+            });
+            jMmateria.add(jMformularioMat);
 
-        jMenuBar1.add(jMmateria);
+            jMenuBar1.add(jMmateria);
 
-        jMadministración.setText("Administración");
+            jMadministración.setText("Administración");
 
-        JMinscripciones.setText("Inscripciones");
-        JMinscripciones.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JMinscripcionesActionPerformed(evt);
-            }
-        });
-        jMadministración.add(JMinscripciones);
+            JMinscripciones.setText("Inscripciones");
+            JMinscripciones.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    JMinscripcionesActionPerformed(evt);
+                }
+            });
+            jMadministración.add(JMinscripciones);
 
-        jMnotas.setText("Notas");
-        jMnotas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMnotasActionPerformed(evt);
-            }
-        });
-        jMadministración.add(jMnotas);
+            jMnotas.setText("Notas");
+            jMnotas.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jMnotasActionPerformed(evt);
+                }
+            });
+            jMadministración.add(jMnotas);
 
-        jMenuBar1.add(jMadministración);
+            jMenuBar1.add(jMadministración);
 
-        jMconsultas.setText("Consultas");
+            jMconsultas.setText("Consultas");
 
-        jMalumxMateria.setText("Alumnos por Materia");
-        jMalumxMateria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMalumxMateriaActionPerformed(evt);
-            }
-        });
-        jMconsultas.add(jMalumxMateria);
+            jMalumxMateria.setText("Alumnos por Materia");
+            jMalumxMateria.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jMalumxMateriaActionPerformed(evt);
+                }
+            });
+            jMconsultas.add(jMalumxMateria);
 
-        jMenuBar1.add(jMconsultas);
+            jMenuBar1.add(jMconsultas);
 
-        jMsalir.setText("Salir");
-        jMsalir.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuDeselected(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                jMsalirMenuSelected(evt);
-            }
-        });
-        jMenuBar1.add(jMsalir);
+            jMsalir.setText("Salir");
+            jMsalir.addMenuListener(new javax.swing.event.MenuListener() {
+                public void menuCanceled(javax.swing.event.MenuEvent evt) {
+                }
+                public void menuDeselected(javax.swing.event.MenuEvent evt) {
+                }
+                public void menuSelected(javax.swing.event.MenuEvent evt) {
+                    jMsalirMenuSelected(evt);
+                }
+            });
+            jMenuBar1.add(jMsalir);
 
-        setJMenuBar(jMenuBar1);
+            setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jDesktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jDesktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+            pack();
+        }// </editor-fold>//GEN-END:initComponents
 
     private void jMformularioAlumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMformularioAlumActionPerformed
         // TODO add your handling code here:
