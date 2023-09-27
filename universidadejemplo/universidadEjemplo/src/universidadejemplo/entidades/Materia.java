@@ -14,6 +14,9 @@ public class Materia {
         this.nombre = nombre;
         this.anioMateria = anioMateria;
         this.estado = estado;
+        if(estado==true){
+    estadoString="Activa";
+}else estadoString="Inactiva";
     }
 
     
@@ -22,6 +25,9 @@ public class Materia {
         this.nombre = nombre;
         this.anioMateria = anioMateria;
         this.estado = estado;
+        if(estado==true){
+    estadoString="Activa";
+}else estadoString="Inactiva";
     }
 
     public int getIdMateria() {
@@ -49,16 +55,24 @@ public class Materia {
     }
 
     public boolean isEstado() {
+        
+        if(estado==true){
+    estadoString="Activa";
+}else estadoString="Inactiva";
         return estado;
     }
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+        if(estado==true){
+    estadoString="Activa";
+}else estadoString="Inactiva";
     }   
+String estadoString;
 
     @Override
     public String toString() {
-        return "- "+ idMateria + " -" + nombre + " -" + anioMateria + " -" + estado;
+        return idMateria + " - " + nombre + " - Año: " + anioMateria + " - Estado: " + estadoString;
     }
     
 }

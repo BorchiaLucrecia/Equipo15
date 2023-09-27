@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package universidadejemplo.accesoADatos;
 
 import java.sql.Connection;
@@ -15,10 +10,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import universidadejemplo.entidades.Materia;
 
-/**
- *
- * @author borch
- */
 public class MateriaData {
 
     private Connection con = null;
@@ -60,6 +51,7 @@ public class MateriaData {
             ps.setString(1, materia.getNombre());
             ps.setInt(2, materia.getAnioMateria());
             ps.setBoolean(3, materia.isEstado());
+            ps.setInt(4, materia.getIdMateria());
 
             int modMateria = ps.executeUpdate();
             if (modMateria == 1) {
@@ -116,16 +108,17 @@ public class MateriaData {
 
     public List<Materia> listarMaterias() {
         ArrayList<Materia> materias = new ArrayList<>();
-        String sql = "SELECT nombre, anio FROM materia WHERE estado=1";
+        String sql = "SELECT idMateria, nombre, anio, estado FROM materia";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Materia materia = new Materia();
+                materia.setIdMateria(rs.getInt("idMateria"));
                 materia.setNombre(rs.getString("nombre"));
                 materia.setAnioMateria(rs.getInt("anio"));
-                materia.setEstado(true);
+                materia.setEstado(rs.getBoolean("estado"));
                 materias.add(materia);
 
             }
